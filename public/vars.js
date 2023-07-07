@@ -1,0 +1,23 @@
+
+
+let minMaxMap = {},
+  numLinksDict = {},
+  links_not_filtered,
+  nodes_not_filtered,
+  nodes,
+  node_ids,
+  links,
+  currentLabHighlightList,
+  currentYear = "All",
+  maxStrength,
+  labs,
+  simulation,
+  svg,
+  link, 
+  node,
+  defs,
+  pieG,
+  minNumConnections = 20,
+  g, gl,
+  referenceCache,
+  currentTopic = "All";
