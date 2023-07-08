@@ -28,4 +28,5 @@ let minMaxMap = {},
   startPos = -48,
   currentDialDeg = startPos,
   numText,
-  dialGroup; // Starting position of the dial in degrees;  // End of the output range;
+  dialGroup,
+  mousePos; 
