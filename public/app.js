@@ -26,10 +26,9 @@
 
   initializeCarousel(d => {
     selectByTopic(d);
-    console.log(minMaxMap)
     if (currentTopic != "All") {
       mapMin = minMaxMap[currentTopic].min;
-      mapMax = minMaxMap[currentTopic].max;
+      mapMax = minMaxMap[currentTopic].max + 1;
     }
     else {
       [mapMin, mapMax] = [1, 60];

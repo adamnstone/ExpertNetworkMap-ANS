@@ -142,9 +142,9 @@ const initializeDial = (svg, callback) => {
 
             d.degNew = angleDelta + d.currentDeg;
             d.currentDeg = d.degNew;
-            console.log("degnew, currentdeg, CDD, angledelta", d.degNew, d.currentDeg, currentDialDeg, angleDelta);
+            //console.log("degnew, currentdeg, CDD, angledelta", d.degNew, d.currentDeg, currentDialDeg, angleDelta);
             currentDialDeg = clamp(angleDelta + currentDialDeg, startDegree, endDegree);
-            console.log(currentDialDeg);
+            //console.log(currentDialDeg);
 
             updateDialText(currentDialDeg, callback);
         })
