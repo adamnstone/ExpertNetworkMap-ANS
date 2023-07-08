@@ -2,17 +2,32 @@ let prevSentToCallback;
 const strokeWidth = 12;
 const dialY = pieY;
 const dialX = width - pieX;
+
+const generateDialMapScale = () => {
+    return d3.scaleLinear().domain([startDegree, endDegree]).range([clamp(mapMin, 1, Infinity), mapMax])
+};
+
+const updateDialText = (currentDialDeg, callback) => {
+    if (!dialGroup) return;
+    dialGroup.attr("transform", `translate(${dialX}, ${dialY}) rotate(${currentDialDeg})`);
+            
+    var mapScale = generateDialMapScale();
+    var mappedValue = mapScale(currentDialDeg);
+
+    const rounded = Math.round(mappedValue);
+
+    numText
+        .text(rounded);
+    numTextWidth = numText.node().getBBox().width;
+    numText.attr("x", (dialX - (numTextWidth / 2)));
+    
+    callback(rounded);//return rounded;
+};
+
 const initializeDial = (svg, callback) => {
     var width = +svg.attr("width"),
         height = +svg.attr("height"),
         radius = pieRadius - (strokeWidth/2); // to be same as the year-select pie
-
-    var startDegree = -135;   // Start of the dial in degrees
-    var endDegree = 135;   // End of the dial in degrees
-    var startPos = -44; // Starting position of the dial in degrees
-
-    var mapMin = 0;   // Start of the output range
-    var mapMax = 60;  // End of the output range
 
     // Get the input element for displaying the mapped value
     var inputElement = document.getElementById("value-input");
@@ -28,10 +43,9 @@ const initializeDial = (svg, callback) => {
         .attr("font-family", "sans-serif")
         .attr("font-size", "13px")
         .attr("fill", "white");
-    let textWidth = textElem.node().getBBox().width;
-    textElem.attr("x", (dialX - (textWidth / 2)));
+    centerText(textElem, dialX);
 
-    const numText = svg.append("text");
+    numText = svg.append("text");
     numText
         .attr("x", dialX)
         .attr("y", dialY + ((radius/2) + strokeWidth))
@@ -53,27 +67,16 @@ const initializeDial = (svg, callback) => {
 
             // Constrain the rotation within the start and end degree
             d.degNew = clamp(degDelta + d.currentDeg, startDegree, endDegree);
-            
-            dialGroup.attr("transform", `translate(${dialX}, ${dialY}) rotate(${d.degNew})`);
-            
-            var mapScale = d3.scaleLinear().domain([startDegree, endDegree]).range([mapMin, mapMax]);
-            var mappedValue = mapScale(d.degNew);
-    
-            const rounded = Math.round(mappedValue);
+            currentDialDeg = d.degNew;
 
-            numText
-                .text(rounded);
-            numTextWidth = numText.node().getBBox().width;
-            numText.attr("x", (dialX - (numTextWidth / 2)));
-
-            callback(rounded);
+            updateDialText(currentDialDeg, callback);
         })
         .on("end", (event, d) => {
             d.currentDeg = d.degNew;
         });
 
 
-    var dialGroup = svg.append("g")
+    dialGroup = svg.append("g")
         .data([{x: 0, scale: d3.scaleLinear().domain([0, width]).range([startDegree, endDegree])}]) // initial data for dialGroup
         .attr("transform", `translate(${dialX}, ${dialY}) rotate(${startPos})`)
         .call(drag);

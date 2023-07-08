@@ -26,7 +26,15 @@
 
   initializeCarousel(d => {
     selectByTopic(d);
-    dialCallback(minNumConnections);dialCallback(minNumConnections);
+    if (currentTopic != "All") {
+      mapMin = minMaxMap[currentTopic].min;
+      mapMax = minMaxMap[currentTopic].max;
+    }
+    else {
+      [mapMin, mapMax] = [1, 60];
+    }
+    updateDialText(currentDialDeg, dialCallback);
+    dialCallback(minNumConnections);//dialCallback(minNumConnections);
   }, topicCarouselList, 350, 600, 30, 10, svg, FAB_PALETTE);
 
   const labCallback = lab_list => {
@@ -38,7 +46,7 @@
         return 0.5;
       }
       else {
-        return 0.1;
+        return minOpacity;
       }
     });
   };

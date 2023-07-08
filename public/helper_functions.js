@@ -287,7 +287,7 @@ const setYear = year => {
         return 0.5;
       }
       else {
-        return 0.1;
+        return minOpacity;
       }
     });
   };
@@ -374,4 +374,9 @@ const createReferenceCache = () => {
       referenceCache[data.id][topic] = r;
     });
   });
+};
+
+const centerText = (txt, xPos) => {
+  let textWidth = txt.node().getBBox().width;
+    txt.attr("x", (xPos - (textWidth / 2)));
 };

@@ -5,14 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3.js</title>
     <style>
+        html {
+            Overflow-y: auto;
+        }
+        body {
+            Overflow-y: scroll; 
+        }
         body { margin:0; position:fixed; top:0; right:0; bottom:0; left:0; }
       circle { stroke: #fff; stroke-width: 1.5px; }
       line { stroke: #999; stroke-opacity: 0.6; }
 
       body {
     font-family: sans-serif;
+    background-color: black;
 }
 
+#top-intro {
+	margin: 0 auto;
+	padding-left: 70px;
+    padding-right: 70px;
+}
+
+#top-title {
+	font-size: 57px;
+	color: #f6f4ef;
+	font-family: 'IM Fell DW Pica', serif;
+	margin-bottom: -12px;
+	margin-top: 20px;
+    margin-right: 20px;
+}
+#intro-title {
+	width: 46%;
+	display: inline-block;
+}
+#top-subtitle {
+	font-size: 17px;
+	font-weight: 300;
+	margin-top: 11px;
+	line-height: 150%;
+	padding-bottom: 0px;
+    color: grey;
+}
+
+#top-shortest-path { 
+	margin-top: 30px;
+}
+#top-shortest-path p {
+	font-size: 11px;
+	text-align: justify;
+	line-height: 155%;
+	color: #777777;
+}
+#top-shortest-path h3 {
+    font-size: 16px;
+    color: #c9c6c0;
+    font-family: 'IM Fell DW Pica', serif;
+    margin-bottom: -8px;
+}
+
+#intro-text {
+	width: 45%;
+	display: inline-block;
+	padding-left: 50px;
+	padding-right: 0px;
+	vertical-align: top;
+}
+#top-explanation {
+	font-size: 12px;
+	text-align: justify;
+}
+#top-explanation p {
+	line-height: 160%;
+    color: #777777;
+}
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -165,9 +230,8 @@ option[value=All] {
       color: white;
     }
 
-    .bottom-left {
+    .overlay-text {
   fill: white;
-  font-size: 14px;
   font-family: Arial, sans-serif;
 }
 
@@ -190,6 +254,23 @@ option[value=All] {
     <script src="app.js"></script>
 </head>
 <body id = "my_dataviz">
+    <div id="top-intro">
+    <div id="top-title">Expert Network Map</div>
+    <div id="intro-title">
+        <div id="top-subtitle">Six generations of Fab Academy students intertwined</div>
+        <div id="top-shortest-path">
+            <h3>Seek Out <i>Topic Experts</i></h3>
+            <p>Larger circles represent students who are referenced by others more often. Hover over a circle to see the student's name, and click on it to open their documentation website. Click different topics to filter the connections shown, and click different years or filter the labs to highlight those students. Sift out students with few references using the dial.</p>
+            </div>
+    </div>
+    <div id="intro-text">
+        <div id="top-explanation">
+            <p>Fab Academy students often link each other's websites in their documentation. Mapping these connections creates a network intertwined across labs, years, and countries. Further, focusing on connections pertaining to certain topic areas reveals <i>Topic Experts</i> which were often referenced pertaining to a certain subject area.</p>
+            <p>The <i>Expert Network Map</i> allows users to navigate the massive web of interconnected students by highlighting these <i>Topics Experts</i> dating back to 2018. Drag around different students to play with the data and gain insight into the interconnectedness of the Fab community.</p>
+            </div>
+    </div>
+    </div>
+    <div style="width:100%;position:relative;">
   <div style="background: white; position: absolute; right: 10px; top: 10px; display: inline-block;" class="multiselect" id="countries" multiple="multiple" data-target="multi-0">
     <div class="title noselect">
         <span class="text">Filter Labs</span>
@@ -198,6 +279,7 @@ option[value=All] {
     </div>
     <div class="container">
     </div>
+</div>
 </div>
 </body>
 </html>

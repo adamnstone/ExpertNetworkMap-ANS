@@ -20,4 +20,12 @@ let minMaxMap = {},
   minNumConnections = 20,
   g, gl,
   referenceCache,
-  currentTopic = "All";
+  currentTopic = "All",
+  mapMin = 1,   // Start of the output range
+  mapMax = 60,
+  startDegree = -135,   // Start of the dial in degrees
+  endDegree = 135,   // End of the dial in degrees
+  startPos = -48,
+  currentDialDeg = startPos,
+  numText,
+  dialGroup; // Starting position of the dial in degrees;  // End of the output range;
