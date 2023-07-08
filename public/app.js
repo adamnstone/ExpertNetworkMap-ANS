@@ -20,6 +20,8 @@
   configureGlowDefinitions();
   createPie();
 
+  createOverlayText();
+
   
 
   initializeCarousel(d => {
