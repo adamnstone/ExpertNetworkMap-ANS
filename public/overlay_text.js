@@ -21,6 +21,8 @@ const createdBy = () => {
             .text(lnk_txt);
     };
 
-    createTxt(30, "Created by", "Adam Stone", "https://fabacademy.org/2023/labs/charlotte/students/adam-stone/")
-    createTxt(10, "For documentation", "click here", "https://fabacademy.org/2023/labs/charlotte/students/adam-stone/lessons/side-projects/lab-link-graph/")
+    createTxt(50, "Created by", "Adam Stone", "https://fabacademy.org/2023/labs/charlotte/students/adam-stone/")
+    createTxt(35, "For documentation", "click here", "https://fabacademy.org/2023/labs/charlotte/students/adam-stone/lessons/side-projects/lab-link-graph/")
+    createTxt(20, "Took inspiration from", "Nadieh Bremer", "https://royalconstellations.visualcinnamon.com/")
+    createTxt(5, "Recieved guidance and support from", "Francico Sanchez", "https://www.fablabs.io/users/francisco")
 };
