@@ -182,7 +182,7 @@ const setLabs = node_ids => labs = getAllLabs(node_ids).sort();
 
 const setCurrentLabHighlightList = () => currentLabHighlightList = labs;
 
-const calculateSimulationStrength = (d, maxstrength) => (d => Math.sqrt((normalize(d.value, 0, maxStrength) * 10 + 1) / SCALE_FACTOR)); // so that it returns the callback function
+const calculateSimulationStrength = (d, maxstrength) => (d => MINIMUM_STRENGTH_CONSTANT + Math.sqrt((normalize(d.value, 0, maxStrength) * 10 + 1) / SCALE_FACTOR)); // so that it returns the callback function
 
 const createSimulation = () => {
     simulation = d3.forceSimulation(nodes)
