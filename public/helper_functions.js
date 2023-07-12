@@ -278,6 +278,36 @@ const configureGlowDefinitions = () => {
       .attr("result", "blurred");
 };
 
+const setLinkOpacity = () => {
+  link.attr("opacity", data => {
+    const source = data.source.id;
+    const sourceYear = source.split(";")[1].split("/")[3];
+    const sourceLab = source.split(";")[1].split("/")[5];
+    const target = data.target.id;
+    const targetYear = target.split(";")[1].split("/")[3];
+    const targetLab = target.split(";")[1].split("/")[5];
+    let sourceIsOn = false;
+    let targetIsOn = false;
+    
+    if ((sourceYear == currentYear || currentYear == "All") && (currentLabHighlightList.includes(sourceLab))) {
+      sourceIsOn = true;
+    } 
+    if ((targetYear == currentYear || currentYear == "All") && (currentLabHighlightList.includes(targetLab))) {
+      targetIsOn = true;
+    }
+
+    if (sourceIsOn && targetIsOn) {
+      return (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR
+    }
+    else if (sourceIsOn || targetIsOn) {
+      return 0.05;
+    }
+    else {
+      return 0.05;
+    }
+  });
+};
+
 const setYear = year => {
     currentYear = year;
     node.attr("opacity", data => {
@@ -290,34 +320,7 @@ const setYear = year => {
         return minOpacity;
       }
     });
-    link.attr("opacity", data => {
-      const source = data.source.id;
-      const sourceYear = source.split(";")[1].split("/")[3];
-      const sourceLab = source.split(";")[1].split("/")[5];
-      const target = data.target.id;
-      const targetYear = target.split(";")[1].split("/")[3];
-      const targetLab = target.split(";")[1].split("/")[5];
-      let sourceIsOn = false;
-      let targetIsOn = false;
-      if ((sourceYear == year || year == "All") && (currentLabHighlightList.includes(sourceLab))) {
-        sourceIsOn = true;
-      } 
-      if ((targetYear == year || year == "All") && (currentLabHighlightList.includes(targetLab))) {
-        targetIsOn = true;
-      }
-
-      if (sourceIsOn && targetIsOn) return (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR;
-
-      else if (sourceIsOn || targetIsOn) {
-
-      }
-
-      else {
-        return 0.1;
-      }
-    });
-
-    link.attr("style", "opacity: url(#MyGradient)");
+    setLinkOpacity();
   };
 
 const createPie = () => {

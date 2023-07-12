@@ -49,6 +49,7 @@
         return minOpacity;
       }
     });
+    setLinkOpacity();
   };
 
   const dialCallback = roundedVal => {
