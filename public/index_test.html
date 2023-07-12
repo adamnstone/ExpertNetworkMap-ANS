@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D3.js Gradient Example</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        body {
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Create SVG
+        var svg = d3.select("body").append("svg")
+            .attr("width", 800)
+            .attr("height", 600);
+
+        // Create definitions
+        var defs = svg.append("defs");
+
+        // Create linear gradient
+        var gradient = defs.append("linearGradient")
+            .attr("id", "myGradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", "100")
+            .attr("y1", "100")
+            .attr("x2", "500")
+            .attr("y2", "300");
+
+        // Define the gradient colors
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "rgba(255, 0, 0, 1)"); // Red with alpha 1
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "rgba(255, 0, 0, 0)"); // Red with alpha 0
+
+        // Create path
+        svg.append("path")
+            .attr("d", "M100 100 L500 300")
+            .attr("stroke", "url(#myGradient)")
+            .attr("stroke-width", "4")
+            .attr("fill", "none");
+    </script>
+</body>
+</html>

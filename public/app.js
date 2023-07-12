@@ -1,6 +1,4 @@
 (async function(){
-
-
   await create_not_filteredFromJSON();
   calculateMinMaxMapFromFiltered();
   createReferenceCache();
@@ -11,6 +9,7 @@
   setCurrentLabHighlightList();
   createSimulation();
   createAndFormatSVG();
+  initializeDefs();
   link = linksToLink(true);
   nodesToNodeAndFormat();
   node = configureNode(node, nodes);

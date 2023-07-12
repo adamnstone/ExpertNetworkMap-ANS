@@ -90,6 +90,62 @@ const calculateMinMax = (ns, ls, topic) => {
     }));
   };
 
+  const initializeDefs = () => {
+    linearGradient = d3.select("defs").selectAll("linearGradient");
+  };
+
+  const getGradientID = l => {
+    let sForm, tForm;
+    try {
+      sForm = l.source.id.replace(/\W/g, '_');
+    }
+    catch {
+      sForm = l.source.replace(/\W/g, '_');
+    }
+
+    try {
+      tForm = l.target.id.replace(/\W/g, '_');
+    }
+    catch {
+      tForm = l.target.replace(/\W/g, '_');
+    }
+
+    return `gradient_${sForm}|${tForm}`
+  };
+
+  const reregisterLinearGradients = links => {
+    const elem = linearGradient.data(links, l => getGradientID(l));
+
+    elem.exit()
+      .each(e => {
+        const d = d3.select(this);
+        delete linearGradient[getGradientID(d)];
+      })
+      .remove();
+
+    const enter = elem.enter().append("linearGradient")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("id", d => getGradientID(d))
+      .attr("x1", 0)
+      .attr("x2", 1)
+      .attr("y1", 0)
+      .attr("y2", 0);
+
+    enter.append("stop").attr("offset", "0%").attr("stop-color", "rgba(255,255,255,1)");
+    enter.append("stop").attr("offset", "100%").attr("stop-color", "rgba(255,255,255,0)");
+    
+    d3.select("defs").selectAll("linearGradient").each(function(e,i) {
+      //console.log(i, d, this);
+      //console.log(this);
+      const d = d3.select(this)
+      linearGradientDict[getGradientID(e)] = d;}/*(e, i) => {
+      console.log(e, i);
+        const d = d3.select(this);
+        console.log(d);
+        linearGradientDict[getGradientID(d)] = d;
+      }*/);
+  };
+
   const condenseLinksforSimulation = ls => {
     let toReturn = [];
     for (let l of ls) {
@@ -103,9 +159,13 @@ const calculateMinMax = (ns, ls, topic) => {
         }
       }
       if (!condensed) {
+        delete l.topic;
         toReturn.push(l);
       }
     }
+
+    reregisterLinearGradients(toReturn);
+
     return toReturn;
   };
   
@@ -152,6 +212,7 @@ const linksToLink = isFirst => {
         .remove();
 
     sel.enter().append("path").merge(sel)
+        .attr("fill", "none") //ADDED
         .attr("stroke-width", d => Math.sqrt(d.value))
         .style("stroke-linecap", "round")
         .attr("opacity", data => (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR);
@@ -185,7 +246,7 @@ const configureNode = (node, nodes) => {
             const lab = d.id.split(";")[1].split("/")[5]; 
             return color(lab);
         })
-        .attr("opacity", 0.5)
+        .attr("opacity", NODE_HIGHLIGHTED_OPACITY)
         .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -230,7 +291,59 @@ function dragstarted(event, d) {
   return r;
   };
 
+  const activationCheck = (year, lab) => (year == currentYear || currentYear == "All") && (currentLabHighlightList.includes(lab));
+
   const setSimulationTick = (node, link) => {
+    const linkTick = () => {
+      link.attr("d", d => {
+        const gradientID = getGradientID(d);
+        //const lg = linearGradientDict[gradientID];
+        const lg = document.getElementById(gradientID);
+        /*lg.attr("x1", d.source.x)
+          .attr("y1", d.source.y)
+          .attr("x2", d.target.x)
+          .attr("y2", d.target.y)*/
+        const {source,
+          sourceYear,
+          sourceLab,
+          target,
+          targetYear,
+          targetLab} = getLinkSummary(d);
+        const sourceIsActivated = activationCheck(sourceYear, sourceLab);
+        const targetIsActivated = activationCheck(targetYear, targetLab);
+        if (!((sourceIsActivated && targetIsActivated) || (!(sourceIsActivated || targetIsActivated)))) { // if only one is activated
+          if (sourceIsActivated) {
+            lg.setAttribute("x1", d.source.x);
+            lg.setAttribute("y1", d.source.y);
+            lg.setAttribute("x2", d.target.x);
+            lg.setAttribute("y2", d.target.y);
+          }
+          else {
+            lg.setAttribute("x2", d.source.x);
+            lg.setAttribute("y2", d.source.y);
+            lg.setAttribute("x1", d.target.x);
+            lg.setAttribute("y1", d.target.y);
+          }
+        }
+
+        const path = d3.path();
+        path.moveTo(d.source.x, d.source.y);
+        path.lineTo(d.target.x, d.target.y);
+        return path.toString();  // return the path data as a string
+        /*const path = d3.path();
+        path.moveTo(d.source.x, d.source.y);
+        path.lineTo(d.target.x, d.target.y);
+        const gradientID = getGradientID(d);
+        const lg = linearGradientDict[gradientID];
+        lg.attr("x1", d.source.x);
+        lg.attr("x2", d.target.x);
+        lg.attr("y1", d.source.y);
+        lg.attr("y2", d.target.y);
+        console.log(lg);
+        return path;*/
+      });
+    };
+    linkTick(); // so that the directions and everything are correct before the user first drags on the simulation
     simulation.on("tick", () => {
         /*link
           .attr("x1", d => d.source.x)
@@ -238,12 +351,7 @@ function dragstarted(event, d) {
           .attr("x2", d => d.target.x)
           .attr("y2", d => d.target.y);*/
         
-        link.attr("d", d => {
-          const path = d3.path();
-          path.moveTo(d.source.x, d.source.y);
-          path.lineTo(d.target.x, d.target.y);
-          return path;
-        });
+        linkTick();
         
         node
           .attr("cx", d => d.x)
@@ -306,7 +414,51 @@ const configureGlowDefinitions = () => {
       .attr("result", "blurred");
 };
 
+const getLinkSummary = data => {
+  const source = data.source.id;
+  const sourceYear = source.split(";")[1].split("/")[3];
+  const sourceLab = source.split(";")[1].split("/")[5];
+  const target = data.target.id;
+  const targetYear = target.split(";")[1].split("/")[3];
+  const targetLab = target.split(";")[1].split("/")[5];
+  return {
+    source,
+    sourceYear,
+    sourceLab,
+    target,
+    targetYear,
+    targetLab
+  };
+};
+
 const setLinkOpacity = () => {
+  link.attr("opacity", data => {
+    const {source,
+      sourceYear,
+      sourceLab,
+      target,
+      targetYear,
+      targetLab} = getLinkSummary(data);
+    let sourceIsOn = false;
+    let targetIsOn = false;
+
+    if (activationCheck(sourceYear, sourceLab)) {
+      sourceIsOn = true;
+    } 
+    if (activationCheck(targetYear, targetLab)) {
+      targetIsOn = true;
+    }
+
+    if ((sourceIsOn || targetIsOn) && !(sourceIsOn && targetIsOn)) {
+      console.log("Y");
+      return null;
+      /*if (sourceIsOn) {
+        return "url(#LineFadeForward)";
+      }
+      return "url(#LineFadeBackward)";*/
+    }
+    return 1;
+  });
   link.attr("stroke", data => { // SHOULD USE LINKS FROM SIMULATION BC OF CONDENSING?
     const source = data.source.id;
     const sourceYear = source.split(";")[1].split("/")[3];
@@ -325,16 +477,18 @@ const setLinkOpacity = () => {
     }
 
     if (sourceIsOn && targetIsOn) {
-      return "rgba(153,153,153"+((normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR).toString()+")";
+      return "rgba(255,255,255"+((normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR).toString()+")";
     }
     else if (sourceIsOn || targetIsOn) {
-      if (sourceIsOn) {
+      console.log("D", getGradientID(data));
+      return `url(#${getGradientID(data)})`;
+      /*if (sourceIsOn) {
         return "url(#LineFadeForward)";
       }
-      return "url(#LineFadeBackward)";
+      return "url(#LineFadeBackward)";*/
     }
     else {
-      return "rgba(153,153,153,0.05)";
+      return "rgba(255,255,255,0.05)";
     }
   });
 };
@@ -345,7 +499,7 @@ const setYear = year => {
       const y = data.id.split(";")[1].split("/")[3];
       const lab = data.id.split(";")[1].split("/")[5];
       if ((y == year || year == "All") && currentLabHighlightList.includes(lab)) {
-        return 0.5;
+        return NODE_HIGHLIGHTED_OPACITY;
       }
       else {
         return minOpacity;
