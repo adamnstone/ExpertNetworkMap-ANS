@@ -89,6 +89,25 @@ const calculateMinMax = (ns, ls, topic) => {
       }
     }));
   };
+
+  const condenseLinksforSimulation = ls => {
+    let toReturn = [];
+    for (let l of ls) {
+      condensed = false;
+      for (let i = 0; i < toReturn.length; i++) {
+        r = toReturn[i];
+        if ((l.target.id == r.target.id && l.source.id == r.source.id) || (l.target.id == r.source.id && l.source.id == r.target.id)) {
+          toReturn[i].value += l.value;
+          condensed = true;
+          break;
+        }
+      }
+      if (!condensed) {
+        toReturn.push(l);
+      }
+    }
+    return toReturn;
+  };
   
   const calculateMaxStrength = () => {
     maxStrength = 0;
@@ -115,7 +134,7 @@ const createSimulation = () => {
 };
 
 const createAndFormatSVG = () => {
-     svg = d3.select("body").append("svg")
+     svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", [0, 0, width, height])
@@ -127,15 +146,16 @@ const createAndFormatSVG = () => {
 const linksToLink = isFirst => {
     if (isFirst) gl = svg.append("g").attr("transform", "translate(150, -10)");
 
-    const sel = gl.selectAll("line").data(links, l=>uniqueId(l));
+    const sel = gl.selectAll("path").data(condenseLinksforSimulation(links), l=>uniqueId(l));
     
     sel.exit()
         .remove();
 
-    sel.enter().append("line").merge(sel)
+    sel.enter().append("path").merge(sel)
         .attr("stroke-width", d => Math.sqrt(d.value))
         .style("stroke-linecap", "round")
         .attr("opacity", data => (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR);
+        console.log("do I need to set opacity here?");
 
     return sel;
 };
@@ -212,11 +232,18 @@ function dragstarted(event, d) {
 
   const setSimulationTick = (node, link) => {
     simulation.on("tick", () => {
-        link
+        /*link
           .attr("x1", d => d.source.x)
           .attr("y1", d => d.source.y)
           .attr("x2", d => d.target.x)
-          .attr("y2", d => d.target.y);
+          .attr("y2", d => d.target.y);*/
+        
+        link.attr("d", d => {
+          const path = d3.path();
+          path.moveTo(d.source.x, d.source.y);
+          path.lineTo(d.target.x, d.target.y);
+          return path;
+        });
         
         node
           .attr("cx", d => d.x)
@@ -242,6 +269,7 @@ function dragstarted(event, d) {
           return 0;
         }
       });
+      console.log("also do I need to set opacity for lines here?");
 
     simulation
       .force("link", d3.forceLink(links).id(d => d.id)
@@ -279,7 +307,7 @@ const configureGlowDefinitions = () => {
 };
 
 const setLinkOpacity = () => {
-  link.attr("opacity", data => {
+  link.attr("stroke", data => { // SHOULD USE LINKS FROM SIMULATION BC OF CONDENSING?
     const source = data.source.id;
     const sourceYear = source.split(";")[1].split("/")[3];
     const sourceLab = source.split(";")[1].split("/")[5];
@@ -297,13 +325,16 @@ const setLinkOpacity = () => {
     }
 
     if (sourceIsOn && targetIsOn) {
-      return (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR
+      return "rgba(153,153,153"+((normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR).toString()+")";
     }
     else if (sourceIsOn || targetIsOn) {
-      return 0.05;
+      if (sourceIsOn) {
+        return "url(#LineFadeForward)";
+      }
+      return "url(#LineFadeBackward)";
     }
     else {
-      return 0.05;
+      return "rgba(153,153,153,0.05)";
     }
   });
 };
