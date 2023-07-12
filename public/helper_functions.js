@@ -180,16 +180,15 @@ const calculateMinMax = (ns, ls, topic) => {
 
 const setLabs = node_ids => labs = getAllLabs(node_ids).sort();
 
-const setCurrentLabHighlightList = () => {
-    
-    currentLabHighlightList = labs;
-}
+const setCurrentLabHighlightList = () => currentLabHighlightList = labs;
+
+const calculateSimulationStrength = (d, maxstrength) => (d => Math.sqrt((normalize(d.value, 0, maxStrength) * 10 + 1) / SCALE_FACTOR)); // so that it returns the callback function
 
 const createSimulation = () => {
     simulation = d3.forceSimulation(nodes)
     .force("boundary", forceBoundary(forceBoundaryMargin,forceBoundaryMargin,width-forceBoundaryMargin, height-forceBoundaryMargin))
-    .force("link", d3.forceLink(links).id(d => d.id).strength(d => (normalize(d.value, 0, maxStrength) * 10 + 1) / SCALE_FACTOR))
-    .force("charge", d3.forceManyBody().strength(-50 / SCALE_FACTOR))
+    .force("link", d3.forceLink(links).id(d => d.id).strength(d => calculateSimulationStrength(d, maxStrength)))
+    .force("charge", d3.forceManyBody().strength(-60)/*(d3.forceManyBody().strength(-50 / SCALE_FACTOR)*/)
     .force("center", d3.forceCenter(width / 2, height / 2));
 };
 
@@ -213,7 +212,7 @@ const linksToLink = isFirst => {
 
     sel.enter().append("path").merge(sel)
         .attr("fill", "none") //ADDED
-        .attr("stroke-width", d => Math.sqrt(d.value))
+        .attr("stroke-width", "1px"/*d => Math.sqrt(d.value)*/) // for 
         .style("stroke-linecap", "round")
         .attr("opacity", data => (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR);
         console.log("do I need to set opacity here?");
@@ -272,11 +271,13 @@ function dragstarted(event, d) {
     d.fy = null;
   }
 
+  const getSimulationForceLinkDistance = d => {console.log(referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic]);return referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic]};// this is good but it doesn't completely fix the circle overlapping problem because of circles that are touching but aren't linked  //Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic]);
+
   const calibrateSimulation = () => {
     simulation.force("collision", forceCollide.radius(d => d.r / 1.2));
 
   simulation.force("link", d3.forceLink(links).id(d => d.id).distance(d => {
-    return Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic]);
+    return getSimulationForceLinkDistance(d);
   }));
   };
 
@@ -381,8 +382,8 @@ function dragstarted(event, d) {
 
     simulation
       .force("link", d3.forceLink(links).id(d => d.id)
-        .strength(d => (normalize(d.value, 0, maxStrength) * 10 + 1) / SCALE_FACTOR)
-        .distance(d => Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic])));
+        .strength(d => calculateSimulationStrength(d, maxStrength))
+        .distance(d => getSimulationForceLinkDistance(d)));
 
     let topicLinks = [];
     links.forEach(l => {
@@ -391,7 +392,7 @@ function dragstarted(event, d) {
       }
     });
     node.attr("r", data => referenceCache[data.id][topic]);
-      simulation.force("link", d3.forceLink(topicLinks).id(d => d.id).distance(d => Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic])));
+      simulation.force("link", d3.forceLink(topicLinks).id(d => d.id).distance(d => getSimulationForceLinkDistance(d)));
       forceCollide.initialize(nodes);
       simulation.alpha(1).restart();
     };

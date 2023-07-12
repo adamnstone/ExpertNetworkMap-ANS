@@ -42,7 +42,7 @@
       const lab = data.id.split(";")[1].split("/")[5];
       const y = data.id.split(";")[1].split("/")[3];
       if (lab_list.includes(lab) && (y == currentYear || currentYear == "All")) {
-        return 0.5;
+        return NODE_HIGHLIGHTED_OPACITY;
       }
       else {
         return minOpacity;
