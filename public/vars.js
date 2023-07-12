@@ -29,4 +29,6 @@ let minMaxMap = {},
   currentDialDeg = startPos,
   numText,
   dialGroup,
-  mousePos; 
+  mousePos,
+  linearGradient,
+  linearGradientDict = {}; 
