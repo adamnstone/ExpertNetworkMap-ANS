@@ -202,6 +202,24 @@ const attributeCallbacks = [
             }
           });
     },
+    (data, calcs, absl) => { // from setNodeTooltips
+        
+        calcs.node.each(function(e,i) {
+            if (d3.select(this).selectAll("title").size() == 0) {d3.select(this).append("title").text(d => {
+                return d.id.split(";")[0];
+                });
+            }
+            //console.log(e,i);
+            r = calcs.node.on('click', (d, i) => { window.open(i.id.split(";")[1], "_blank") });
+        });
+    
+        /*let r = calcs.node.append("title")
+            .text(d => {
+            return d.id.split(";")[0];
+            });*/
+            
+        
+    },
     (data, calcs, absl) => absl.simulation.alpha(1).restart()
 ];
 
