@@ -113,12 +113,14 @@ const calculateMinMax = (ns, ls, topic) => {
     return `gradient_${sForm}|${tForm}`
   };
 
-  const reregisterLinearGradients = links => {
+  const registerLinearGradients = links => {
+    //console.log("Registering liear gradients");
     const elem = linearGradient.data(links, l => getGradientID(l));
-
+    //console.log(links);
     elem.exit()
-      .each(e => {
+      .each(function(e,i) {
         const d = d3.select(this);
+        document.remove(linearGradient[getGradientID(d)]);
         delete linearGradient[getGradientID(d)];
       })
       .remove();
@@ -152,7 +154,19 @@ const calculateMinMax = (ns, ls, topic) => {
       condensed = false;
       for (let i = 0; i < toReturn.length; i++) {
         r = toReturn[i];
-        if ((l.target.id == r.target.id && l.source.id == r.source.id) || (l.target.id == r.source.id && l.source.id == r.target.id)) {
+        let lTargStr;
+        let rTargStr;
+        let lSourStr;
+        let rSourStr;
+        if (typeof l.target == 'string') lTargStr = l.target;
+        else lTargStr = l.target.id;
+        if (typeof r.target == 'string') rTargStr = r.target;
+        else rTargStr = r.target.id;
+        if (typeof l.source == 'string') lSourStr = l.source;
+        else rSourStr = l.source.id;
+        if (typeof r.source == 'string') rSourStr = r.source;
+        else rSourStr = r.source.id;
+        if ((lTargStr== rTargStr && lSourStr == rSourStr) || (lTargStr == rSourStr && lSourStr == rTargStr)) {
           toReturn[i].value += l.value;
           condensed = true;
           break;
@@ -164,7 +178,7 @@ const calculateMinMax = (ns, ls, topic) => {
       }
     }
 
-    reregisterLinearGradients(toReturn);
+    //reregisterLinearGradients(toReturn);
 
     return toReturn;
   };
@@ -215,7 +229,7 @@ const linksToLink = isFirst => {
         .attr("stroke-width", "1px"/*d => Math.sqrt(d.value)*/) // for 
         .style("stroke-linecap", "round")
         .attr("opacity", data => (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR);
-        console.log("do I need to set opacity here?");
+        //console.log("do I need to set opacity here?");
 
     return sel;
 };
@@ -271,7 +285,7 @@ function dragstarted(event, d) {
     d.fy = null;
   }
 
-  const getSimulationForceLinkDistance = d => {console.log(referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic]);return referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic]};// this is good but it doesn't completely fix the circle overlapping problem because of circles that are touching but aren't linked  //Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic]);
+  const getSimulationForceLinkDistance = d => referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic];// this is good but it doesn't completely fix the circle overlapping problem because of circles that are touching but aren't linked  //Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic]);
 
   const calibrateSimulation = () => {
     simulation.force("collision", forceCollide.radius(d => d.r / 1.2));
@@ -292,58 +306,61 @@ function dragstarted(event, d) {
   return r;
   };
 
-  const activationCheck = (year, lab) => (year == currentYear || currentYear == "All") && (currentLabHighlightList.includes(lab));
+  //const activationCheck = (year, lab) => (year == currentYear || currentYear == "All") && (currentLabHighlightList.includes(lab));
+  const activationCheck = (currentYear, currentLabHighlightList, year, lab) => (year == currentYear || currentYear == "All") && (currentLabHighlightList.includes(lab));
+
+  const linkTick = () => {
+    link.attr("d", d => {
+      const gradientID = getGradientID(d);
+      //const lg = linearGradientDict[gradientID];
+      const lg = document.getElementById(gradientID);
+      /*lg.attr("x1", d.source.x)
+        .attr("y1", d.source.y)
+        .attr("x2", d.target.x)
+        .attr("y2", d.target.y)*/
+      const {source,
+        sourceYear,
+        sourceLab,
+        target,
+        targetYear,
+        targetLab} = getLinkSummary(d);
+      const sourceIsActivated = activationCheck(sourceYear, sourceLab);
+      const targetIsActivated = activationCheck(targetYear, targetLab);
+      if (!((sourceIsActivated && targetIsActivated) || (!(sourceIsActivated || targetIsActivated)))) { // if only one is activated
+        if (sourceIsActivated) {
+          lg.setAttribute("x1", d.source.x);
+          lg.setAttribute("y1", d.source.y);
+          lg.setAttribute("x2", d.target.x);
+          lg.setAttribute("y2", d.target.y);
+        }
+        else {
+          lg.setAttribute("x2", d.source.x);
+          lg.setAttribute("y2", d.source.y);
+          lg.setAttribute("x1", d.target.x);
+          lg.setAttribute("y1", d.target.y);
+        }
+      }
+
+      const path = d3.path();
+      path.moveTo(d.source.x, d.source.y);
+      path.lineTo(d.target.x, d.target.y);
+      return path.toString();  // return the path data as a string
+      /*const path = d3.path();
+      path.moveTo(d.source.x, d.source.y);
+      path.lineTo(d.target.x, d.target.y);
+      const gradientID = getGradientID(d);
+      const lg = linearGradientDict[gradientID];
+      lg.attr("x1", d.source.x);
+      lg.attr("x2", d.target.x);
+      lg.attr("y1", d.source.y);
+      lg.attr("y2", d.target.y);
+      console.log(lg);
+      return path;*/
+    });
+  };
 
   const setSimulationTick = (node, link) => {
-    const linkTick = () => {
-      link.attr("d", d => {
-        const gradientID = getGradientID(d);
-        //const lg = linearGradientDict[gradientID];
-        const lg = document.getElementById(gradientID);
-        /*lg.attr("x1", d.source.x)
-          .attr("y1", d.source.y)
-          .attr("x2", d.target.x)
-          .attr("y2", d.target.y)*/
-        const {source,
-          sourceYear,
-          sourceLab,
-          target,
-          targetYear,
-          targetLab} = getLinkSummary(d);
-        const sourceIsActivated = activationCheck(sourceYear, sourceLab);
-        const targetIsActivated = activationCheck(targetYear, targetLab);
-        if (!((sourceIsActivated && targetIsActivated) || (!(sourceIsActivated || targetIsActivated)))) { // if only one is activated
-          if (sourceIsActivated) {
-            lg.setAttribute("x1", d.source.x);
-            lg.setAttribute("y1", d.source.y);
-            lg.setAttribute("x2", d.target.x);
-            lg.setAttribute("y2", d.target.y);
-          }
-          else {
-            lg.setAttribute("x2", d.source.x);
-            lg.setAttribute("y2", d.source.y);
-            lg.setAttribute("x1", d.target.x);
-            lg.setAttribute("y1", d.target.y);
-          }
-        }
 
-        const path = d3.path();
-        path.moveTo(d.source.x, d.source.y);
-        path.lineTo(d.target.x, d.target.y);
-        return path.toString();  // return the path data as a string
-        /*const path = d3.path();
-        path.moveTo(d.source.x, d.source.y);
-        path.lineTo(d.target.x, d.target.y);
-        const gradientID = getGradientID(d);
-        const lg = linearGradientDict[gradientID];
-        lg.attr("x1", d.source.x);
-        lg.attr("x2", d.target.x);
-        lg.attr("y1", d.source.y);
-        lg.attr("y2", d.target.y);
-        console.log(lg);
-        return path;*/
-      });
-    };
     linkTick(); // so that the directions and everything are correct before the user first drags on the simulation
     simulation.on("tick", () => {
         /*link
@@ -378,7 +395,7 @@ function dragstarted(event, d) {
           return 0;
         }
       });
-      console.log("also do I need to set opacity for lines here?");
+      //console.log("also do I need to set opacity for lines here?");
 
     simulation
       .force("link", d3.forceLink(links).id(d => d.id)
@@ -391,6 +408,7 @@ function dragstarted(event, d) {
         topicLinks.push(l);
       }
     });
+    
     node.attr("r", data => referenceCache[data.id][topic]);
       simulation.force("link", d3.forceLink(topicLinks).id(d => d.id).distance(d => getSimulationForceLinkDistance(d)));
       forceCollide.initialize(nodes);
@@ -451,7 +469,6 @@ const setLinkOpacity = () => {
     }
 
     if ((sourceIsOn || targetIsOn) && !(sourceIsOn && targetIsOn)) {
-      console.log("Y");
       return null;
       /*if (sourceIsOn) {
         return "url(#LineFadeForward)";
@@ -481,7 +498,6 @@ const setLinkOpacity = () => {
       return "rgba(255,255,255"+((normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR).toString()+")";
     }
     else if (sourceIsOn || targetIsOn) {
-      console.log("D", getGradientID(data));
       return `url(#${getGradientID(data)})`;
       /*if (sourceIsOn) {
         return "url(#LineFadeForward)";
@@ -496,7 +512,7 @@ const setLinkOpacity = () => {
 
 const setYear = year => {
     currentYear = year;
-    node.attr("opacity", data => {
+    /*node.attr("opacity", data => {
       const y = data.id.split(";")[1].split("/")[3];
       const lab = data.id.split(";")[1].split("/")[5];
       if ((y == year || year == "All") && currentLabHighlightList.includes(lab)) {
@@ -507,6 +523,14 @@ const setYear = year => {
       }
     });
     setLinkOpacity();
+    linkTick();*/
+    updateData({
+      minNumConnections,
+      simulation,
+      svg,
+      g,
+      "gl": gl_
+    })
   };
 
 const createPie = () => {
