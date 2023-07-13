@@ -66,7 +66,8 @@ const calculationCallbacks = [
 
 const attributeCallbacks = [
     (data, calcs, absl) => { // from selectByTopic
-        calcs.node.attr("r", d => referenceCache[d.id][absl.topic]);
+        console.log(referenceCache);
+        calcs.node.attr("r", d => {console.log(d, referenceCache[d.id][absl.topic]);return referenceCache[d.id][absl.topic]});
         absl.simulation.nodes(data.nodes);
         forceCollide.initialize(data.nodes);
     },

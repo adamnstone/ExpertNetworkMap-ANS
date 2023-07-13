@@ -26,6 +26,7 @@ const calculateMinMax = (ns, ls, topic) => {
       if (v < minV) minV = v;
       if (v > maxV) maxV = v;
     });
+    if (topic == "3D Printing and Scanning") console.log("maxV was for 3d printing", maxV);
     return {min: minV, max: maxV};
   };
 
