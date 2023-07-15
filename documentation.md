@@ -1,5 +1,11 @@
 # Expert Network Map Documetation
 
+## Iteration 8
+
+### Updates
+
+- *bug fix*: when selecting by topic `minMaxMap` uses corrected values to calibrate the `Minimum Times Referenced` dial's minimum and maximum values; previously it counted each link as a single increase to the number of times referenced for a student, but now it addes the `value` of each link instead of always adding 1, solving the issue
+
 ## Iteration 7
 
 ### Updates
