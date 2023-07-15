@@ -13,9 +13,10 @@ function normalize(value, min, max) {
   return (value - min) / (max - min);
 }
 
-const calculateMinMax = (ns, ls, topic) => {
+const calculateMinMax = (/*ns, ls, */topic) => {
     let minV = Infinity;
     let maxV = -Infinity;
+    //referenceCache here!
     ns.forEach(n => {
       let v = 0;
       ls.forEach(l => {
@@ -26,7 +27,6 @@ const calculateMinMax = (ns, ls, topic) => {
       if (v < minV) minV = v;
       if (v > maxV) maxV = v;
     });
-    if (topic == "3D Printing and Scanning") console.log("maxV was for 3d printing", maxV);
     return {min: minV, max: maxV};
   };
 
@@ -46,13 +46,23 @@ const calculateMinMax = (ns, ls, topic) => {
     let nodes = nodes_not_filtered.filter(n => filterFunc(n));
   
     let node_ids = nodes.map(n => n.id);
-  
-    let links = links_not_filtered.filter(l => (node_ids.includes(l.target.id)||node_ids.includes(l.target)) && (node_ids.includes(l.source.id)||node_ids.includes(l.source)));
-    
+
+    let links = JSON.parse(JSON.stringify(links_not_filtered)).filter(l => { // DEEPCOPY SOLVES HEISENBUG!
+      //if (l.source == "Árni Björnsson;https://fabacademy.org/2022/labs/isafjordur/students/arni-bjornsson/") debugger;
+      return ((node_ids.includes(l.target.id)||node_ids.includes(l.target)) && (node_ids.includes(l.source.id)|node_ids.includes(l.source)));
+    });
+    //debugger;
     return [nodes, node_ids, links];
   };
   
-  const uniqueId = l => `${l.source.id}${l.target.id}${l.topic}${l.value}`;
+  const uniqueId = l => {
+    let sT;
+    let tT;
+    if (typeof l.source == 'string') {sT = l.source; tT = l.target;}
+    else {sT = l.source.id; tT = l.target.id;}
+
+    return `${sT}${tT}${l.topic}${l.value}`;
+  };
 
   const createNumLinksDictFrom_not_filtered = () => {
     for (let i = 0; i < nodes_not_filtered.length; i++) {
@@ -164,9 +174,10 @@ const calculateMinMax = (ns, ls, topic) => {
         if (typeof r.target == 'string') rTargStr = r.target;
         else rTargStr = r.target.id;
         if (typeof l.source == 'string') lSourStr = l.source;
-        else rSourStr = l.source.id;
+        else lSourStr = l.source.id;
         if (typeof r.source == 'string') rSourStr = r.source;
         else rSourStr = r.source.id;
+        //console.log(lTargStr, rTargStr, lSourStr, rSourStr);
         if ((lTargStr== rTargStr && lSourStr == rSourStr) || (lTargStr == rSourStr && lSourStr == rTargStr)) {
           toReturn[i].value += l.value;
           condensed = true;
@@ -237,7 +248,7 @@ const linksToLink = isFirst => {
 
 const calculateMinMaxMapFromFiltered = () => { // now it's not "FromFiltered"
     [...TOPICS, "All"].forEach(topic => {
-        minMaxMap[topic] = calculateMinMax(nodes_not_filtered, links_not_filtered, topic);
+        minMaxMap[topic] = calculateMinMax(/*nodes_not_filtered, links_not_filtered, */topic);
       });
 };
 

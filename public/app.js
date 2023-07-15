@@ -1,17 +1,22 @@
-(async function(){
-  await create_not_filteredFromJSON();
-  calculateMinMaxMapFromFiltered();
+//(async function(){
+  /*await */create_not_filteredFromJSON().then(()=>{
+  
   createReferenceCache();
+  calculateMinMaxMapFromFiltered();
   createNumLinksDictFrom_not_filtered(nodes_not_filtered, links_not_filtered);
   setLabs(nodes_not_filtered.map(n=>n.id));
+  
   transferNot_filteredToArrays();
+  
   calculateMaxStrength();
+  
   setCurrentLabHighlightList();
   createSimulation();
   createAndFormatSVG();
   initializeDefs();
   gl_ = svg.append("g").attr("transform", "translate(150, -10)");
   //link = linksToLink(true);
+  
   registerLinearGradients(links_not_filtered); // so that when they are needed all of the gradients are available; this could only use links that ever would need to have a linear gradient to improve performance
   nodesToNodeAndFormat();
   /*node = configureNode(node, nodes);
@@ -40,6 +45,7 @@
     if (currentTopic != "All") {
       mapMin = minMaxMap[currentTopic].min;
       mapMax = minMaxMap[currentTopic].max + 1;
+      console.log("minmax", mapMin, mapMax);
     }
     else {
       [mapMin, mapMax] = [1, 60];
@@ -120,4 +126,6 @@
   initializeDial(svg, dialCallback);
 
   initializeLabMultiselect(labs, labCallback);
-})();
+
+});
+//})();

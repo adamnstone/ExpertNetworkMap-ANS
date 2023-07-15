@@ -4,8 +4,9 @@ const updateCallbacks = [
             let nodes = nodes_not_filtered.filter(n => filterFunc(n));
 
             let node_ids = nodes.map(n => n.id);
-
-            let links = links_not_filtered.filter(l => (l.topic == absl.topic || absl.topic == "All") && (node_ids.includes(l.target.id)||node_ids.includes(l.target)) && (node_ids.includes(l.source.id)||node_ids.includes(l.source)));
+            let links = JSON.parse(JSON.stringify(links_not_filtered)).filter(l => { // DEEPCOPY SOLVES HEISENBUG!
+              return (l.topic == absl.topic || absl.topic == "All") && (node_ids.includes(l.target)) && (node_ids.includes(l.source));
+            });
             
             return [nodes, links];
         };
@@ -31,7 +32,9 @@ const calculationCallbacks = [
         });
         return {maxStrength};
     }, // code from calculateMaxStrength
-    (data, absl) => {return {"condensedLinks": /*condenseLinksforSimulation(*/data.links/*)*/}},
+    (data, absl) => {
+      return {"condensedLinks": condenseLinksforSimulation(data.links)}
+    },
     (data, absl, calcs) => {
 
         //gl.selectAll("path").remove(); // exit() isn't working and wouldn't unless I saved sel across calls, and that caused the not deleting circles error again
@@ -66,8 +69,11 @@ const calculationCallbacks = [
 
 const attributeCallbacks = [
     (data, calcs, absl) => { // from selectByTopic
-        console.log(referenceCache);
-        calcs.node.attr("r", d => {console.log(d, referenceCache[d.id][absl.topic]);return referenceCache[d.id][absl.topic]});
+        calcs.node.attr("r", d => 
+        {
+          console.log(d, referenceCache[d.id]);
+          return referenceCache[d.id][absl.topic];
+        });
         absl.simulation.nodes(data.nodes);
         forceCollide.initialize(data.nodes);
     },
@@ -249,7 +255,6 @@ const setDataAttributes = (funcs, data, calcs, absolutes) => {
 }
 
 const updateData = absolutes => {
-    console.log("updating");
     absolutes = {...absolutes, "topic": ("topic" in absolutes ? absolutes.topic : currentTopic), "year": currentYear, currentLabHighlightList};
     //console.log(JSON.stringify(absolutes));
     //console.log("updateData called with parameters: ", absolutes);
