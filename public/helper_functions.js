@@ -13,20 +13,20 @@ function normalize(value, min, max) {
   return (value - min) / (max - min);
 }
 
-const calculateMinMax = (/*ns, ls, */topic) => {
+const calculateMinMax = (ns, ls, topic) => {
     let minV = Infinity;
     let maxV = -Infinity;
-    //referenceCache here!
     ns.forEach(n => {
       let v = 0;
       ls.forEach(l => {
         if (l.target == n.id && (topic == l.topic || topic == "All")) {
-          v += 1;
+          v += l.value;//1;
         }
       });
       if (v < minV) minV = v;
       if (v > maxV) maxV = v;
     });
+    //console.log("TOPIC", topic, minV, maxV);
     return {min: minV, max: maxV};
   };
 
@@ -248,7 +248,7 @@ const linksToLink = isFirst => {
 
 const calculateMinMaxMapFromFiltered = () => { // now it's not "FromFiltered"
     [...TOPICS, "All"].forEach(topic => {
-        minMaxMap[topic] = calculateMinMax(/*nodes_not_filtered, links_not_filtered, */topic);
+        minMaxMap[topic] = calculateMinMax(nodes_not_filtered, links_not_filtered, topic);
       });
 };
 

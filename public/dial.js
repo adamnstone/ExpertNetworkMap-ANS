@@ -4,7 +4,7 @@ const dialY = pieY;
 const dialX = width - pieX;
 
 const generateDialMapScale = () => {
-    mapMin = 
+    //mapMin = 
     return d3.scaleLinear().domain([startDegree, endDegree]).range([clamp(mapMin, 1, Infinity), mapMax])
 };
 

@@ -1,8 +1,8 @@
 //(async function(){
   /*await */create_not_filteredFromJSON().then(()=>{
-  
+    calculateMinMaxMapFromFiltered();
   createReferenceCache();
-  calculateMinMaxMapFromFiltered();
+  
   createNumLinksDictFrom_not_filtered(nodes_not_filtered, links_not_filtered);
   setLabs(nodes_not_filtered.map(n=>n.id));
   
@@ -44,8 +44,7 @@
     currentTopic = d;
     if (currentTopic != "All") {
       mapMin = minMaxMap[currentTopic].min;
-      mapMax = minMaxMap[currentTopic].max + 1;
-      console.log("minmax", mapMin, mapMax);
+      mapMax = minMaxMap[currentTopic].max /*+ 1*/;
     }
     else {
       [mapMin, mapMax] = [1, 60];
