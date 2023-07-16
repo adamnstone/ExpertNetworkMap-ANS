@@ -18,7 +18,7 @@ const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, c
         .attr('width', width)
         .attr('height', yScale.bandwidth())
         .attr('stroke', 'black')
-        .attr('fill', d => color(d))
+        .attr('fill', CAROUSEL_OPTION_COLOR/*d => color(d)*/)
         .on('click', (event, d) => {
             movePointerTo(d);
         });
@@ -98,7 +98,7 @@ const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, c
 
     text
         .style('text-anchor', 'middle')
-        .style('fill', d => {if (d == 'Electronics Design' || d == "Embedded Networking and Communications") return 'white';return 'black';})
+        .style('fill', CAROUSEL_TEXT_COLOR/*d => {if (d == 'Electronics Design' || d == "Embedded Networking and Communications") return 'white';return 'black';}*/)
         .attr("font-weight", 700)
         .attr("font-family", "Saira")
         .attr("font-size", 13)
