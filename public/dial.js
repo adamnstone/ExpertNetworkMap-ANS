@@ -175,7 +175,7 @@ const initializeDial = (svg, callback) => {
         .attr("y1", 0)
         .attr("x2", 0)
         .attr("y2", -(radius - strokeWidth))
-        .style("stroke", FAB_PALETTE[6])
+        .style("stroke", 'grey'/*FAB_PALETTE[6]*/)
         .style("stroke-width", `${strokeWidth}px`)
         .style("stroke-linecap", "round");
 

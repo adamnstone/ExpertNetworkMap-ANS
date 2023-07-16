@@ -86,7 +86,7 @@ const attributeCallbacks = [
         
         calcs.node.attr("fill", d => {
                 const lab = d.id.split(";")[1].split("/")[5]; 
-                return color(lab);
+                return colorRegion(LABS_CONTINENT[lab]);
             })
             .attr("opacity", NODE_HIGHLIGHTED_OPACITY)
             .call(d3.drag()
