@@ -1,5 +1,13 @@
 # Expert Network Map Documetation
 
+## Iteration 9
+
+### Updates
+
+- tooltip immediately appears on hover
+- tooltip styling changed (new HTML element instead of `<title>`)
+- student's year and lab added to tooltip
+
 ## Iteration 8
 
 ### Updates

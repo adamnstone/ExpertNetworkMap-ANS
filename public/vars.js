@@ -32,4 +32,12 @@ let minMaxMap = {},
   mousePos,
   linearGradient,
   gl_,
-  linearGradientDict = {}; 
+  linearGradientDict = {},
+  Tooltip,
+  transformation,
+  svgPoint,
+  boundingRect,
+  mouseIsDragging = false,
+  body,
+   tooltipFlippedX = false; // Track whether tooltip is flipped horizontally
+ tooltipFlippedY = false; // Track whether tooltip is flipped vertically; 

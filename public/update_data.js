@@ -71,7 +71,7 @@ const attributeCallbacks = [
     (data, calcs, absl) => { // from selectByTopic
         calcs.node.attr("r", d => 
         {
-          console.log(d, referenceCache[d.id]);
+          //console.log(d, referenceCache[d.id]);
           return referenceCache[d.id][absl.topic];
         });
         absl.simulation.nodes(data.nodes);
@@ -212,12 +212,19 @@ const attributeCallbacks = [
     (data, calcs, absl) => { // from setNodeTooltips
         
         calcs.node.each(function(e,i) {
-            if (d3.select(this).selectAll("title").size() == 0) {d3.select(this).append("title").text(d => {
+            /*if (d3.select(this).selectAll("title").size() == 0) {d3.select(this).append("title").text(d => {
                 return d.id.split(";")[0];
                 });
             }
             //console.log(e,i);
-            r = calcs.node.on('click', (d, i) => { window.open(i.id.split(";")[1], "_blank") });
+            r = calcs.node.on('click', (d, i) => { window.open(i.id.split(";")[1], "_blank") });*/
+            const currentNode = d3.select(this);
+            if (!currentNode.on("mouseover")) {
+              currentNode.on("mouseover", tooltipMouseover)
+                .on("mousemove", tooltipMousemove)
+                .on("mouseleave", tooltipMouseleave);
+              currentNode.on('click', (d, i) => { window.open(i.id.split(";")[1], "_blank") })
+            }
         });
     
         /*let r = calcs.node.append("title")

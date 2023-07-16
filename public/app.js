@@ -1,5 +1,11 @@
+
 //(async function(){
-  /*await */create_not_filteredFromJSON().then(()=>{
+  /*await */
+  window.onload = () => {
+    Tooltip = d3.select("#tooltip");
+    body = document.getElementsByTagName('body')[0];
+   
+  create_not_filteredFromJSON().then(()=>{
     calculateMinMaxMapFromFiltered();
   createReferenceCache();
   
@@ -128,3 +134,4 @@
 
 });
 //})();
+  };
