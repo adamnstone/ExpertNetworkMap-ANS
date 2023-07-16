@@ -40,4 +40,5 @@ let minMaxMap = {},
   mouseIsDragging = false,
   body,
    tooltipFlippedX = false; // Track whether tooltip is flipped horizontally
- tooltipFlippedY = false; // Track whether tooltip is flipped vertically; 
+ tooltipFlippedY = false,
+ mouseIsOver = false; // Track whether tooltip is flipped vertically; 

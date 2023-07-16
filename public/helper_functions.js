@@ -657,9 +657,9 @@ window.addEventListener('pointermove', (event) => {
   let x = event.clientX + body.scrollLeft + 50;
   let y = event.clientY + body.scrollTop - 10;
 
-  console.log("y", y, "event.clientY", event.clientY, "scrollTOp", body.scrollTop, "tooltipHeight", tooltipHeight, "windowHeight", windowHeight);
+  //console.log("y", y, "event.clientY", event.clientY, "scrollTOp", body.scrollTop, "tooltipHeight", tooltipHeight, "windowHeight", windowHeight);
 
-  console.log(x, tooltipWidth, innerWidth);
+  //console.log(x, tooltipWidth, innerWidth);
 
   // Consider a buffer of 10 pixels or so to ensure that 
   // the tooltip doesn't touch the edge of the viewport.
@@ -685,7 +685,12 @@ const pointerOutOfSVG = () => {
 };
 
 const tooltipMouseover = function(event, d) {
-  console.log("mouseover");
+  /*if (mouseIsOver) {
+    console.log("H");
+    return
+  };*/
+  mouseIsOver = true;
+  //console.log("mouseover");
   Tooltip
     .style("display", "initial")
     .style("visibility", "visible");
@@ -695,17 +700,18 @@ const tooltipMouseover = function(event, d) {
 }
 
 var tooltipMousemove = function(event, d) {
-  console.log("mousemove");
+  //console.log("mousemove");
   //var pos = cursorPoint(event);
   //pos = {"x": d.x, "y": d.y};
   Tooltip
-    .html("<span>Student: " + d.id.split(";")[0] + "<br>Year: " + d.id.split(";")[1].split("/")[3] + "<br>Lab: " + d.id.split(";")[1].split("/")[5] + "</span>");
+    .html("<span>Student: " + d.id.split(";")[0] + "<br>Year: " + d.id.split(";")[1].split("/")[3] + "<br>Lab: " + d.id.split(";")[1].split("/")[5] + "<br>Region: </span>");
     //.style("left", (pos.x + 70) + "px")
     //.style("top", (pos.y) + "px");
 }
 
 var tooltipMouseleave = function(event, d) {
-  console.log("mouseleave");
+  mouseIsOver = false;
+  //console.log("mouseleave");
   if (mouseIsDragging) return;
   Tooltip
     .style("display", "none")
