@@ -39,6 +39,7 @@ const calculateMinMax = (ns, ls, topic) => {
       const lab = node_id.split(";")[1].split("/")[5];
       if (!labs.includes(lab)) labs.push(lab);
     }
+    
     return labs;
   };
   
@@ -274,7 +275,7 @@ const configureNode = (node, nodes) => {
     
     ent.attr("fill", d => {
             const lab = d.id.split(";")[1].split("/")[5]; 
-            return color(lab);
+            return colorRegion(LABS_CONTINENT[lab]);
         })
         .attr("opacity", NODE_HIGHLIGHTED_OPACITY)
         .call(d3.drag()
@@ -705,7 +706,7 @@ var tooltipMousemove = function(event, d) {
   //var pos = cursorPoint(event);
   //pos = {"x": d.x, "y": d.y};
   Tooltip
-    .html("<span>Student: " + d.id.split(";")[0] + "<br>Year: " + d.id.split(";")[1].split("/")[3] + "<br>Lab: " + d.id.split(";")[1].split("/")[5] + "<br>Region: </span>");
+    .html("<span>Student: " + d.id.split(";")[0] + "<br>Year: " + d.id.split(";")[1].split("/")[3] + "<br>Lab: " + d.id.split(";")[1].split("/")[5] + "<br>Region: <span style=\"color:"+colorRegion(LABS_CONTINENT[d.id.split(";")[1].split("/")[5]])+";\">" + LABS_CONTINENT[d.id.split(";")[1].split("/")[5]] + "</span></span>");
     //.style("left", (pos.x + 70) + "px")
     //.style("top", (pos.y) + "px");
 }

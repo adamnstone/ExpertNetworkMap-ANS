@@ -24,6 +24,23 @@ const FAB_PALETTE = [
   "#f05c71"
 ];
 
+const NODE_REGION_PALETTE = [
+  "#1da619",
+  "#f04260",
+  "#4abfbd",
+  "#284fb5",
+  "#f05be1"
+];
+const continent = [
+  "Africa",
+  "Asia",
+  "Europe",
+  "North America",
+  "South America"
+];
+const continentColor = {};
+for (let i = 0; i < NODE_REGION_PALETTE.length; i++) continentColor[continent[i]] = NODE_REGION_PALETTE[i];
+
 const NODE_SIZE_MULTIPLIER = 50;
 const NODE_SIZE_MINIMUM = 5;
 
@@ -54,6 +71,10 @@ const nonDiacriticLetters = "abcdefghijklmnopqrstuvwxyz";
 const width = 2*928;
 const height = 1.5*600;
 const color = d3.scaleOrdinal().range(COLOR_PALETTE);
+//const color = d3.scaleOrdinal().range(NODE_REGION_PALETTE);//d3.scaleOrdinal().range(COLOR_PALETTE);
+const colorRegion = key => {
+  return continentColor[key];
+};
 const colorFab = d3.scaleOrdinal().range(FAB_PALETTE);
 const shape = d3.scaleOrdinal().range(d3.symbols);
 

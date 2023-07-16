@@ -1,5 +1,13 @@
 # Expert Network Map Documetation
 
+## Iteration 10
+
+### Updates
+
+- color scheme changed to draw eye to the graph
+- student colors mapped by continent
+- tooltip changed to add region (region text in the tooltip is the same color as the node)
+
 ## Iteration 9
 
 ### Updates
