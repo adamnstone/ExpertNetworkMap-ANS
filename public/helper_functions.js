@@ -286,6 +286,7 @@ const configureNode = (node, nodes) => {
 };
 
 function dragstarted(event, d) {
+    objectBeingDragged = d3.select(this);
     if (!event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
@@ -302,9 +303,12 @@ function dragstarted(event, d) {
     d.fx = null;
     d.fy = null;
     mouseIsDragging = false;
-    if (pointerOutOfSVG()) {
-      tooltipMouseleave();
+    console.log("dragend", pointerOutOfSVG());
+    const pointerOut = pointerOutOfSVG();
+    if (pointerOut) {
+      tooltipMouseleave(null, null, objectBeingDragged);
     }
+    objectBeingDragged = null;
   }
 
   const getSimulationForceLinkDistance = d => referenceCache[d.target.id][currentTopic] + referenceCache[d.source.id][currentTopic];// this is good but it doesn't completely fix the circle overlapping problem because of circles that are touching but aren't linked  //Math.max(referenceCache[d.target.id][currentTopic], referenceCache[d.source.id][currentTopic]);
@@ -312,9 +316,9 @@ function dragstarted(event, d) {
   const calibrateSimulation = () => {
     simulation.force("collision", forceCollide.radius(d => d.r / 1.2));
 
-  simulation.force("link", d3.forceLink(links).id(d => d.id).distance(d => {
-    return getSimulationForceLinkDistance(d);
-  }));
+    simulation.force("link", d3.forceLink(links).id(d => d.id).distance(d => {
+      return getSimulationForceLinkDistance(d);
+    }));
   };
 
   /*const setNodeTooltips = node => {
@@ -645,8 +649,8 @@ const centerText = (txt, xPos) => {
 };
 
 window.addEventListener('pointermove', (event) => {
-  /*mousePos = { x: event.clientX, y: event.clientY };
-  Tooltip.style("left", (mousePos.x + body.scrollLeft + 50) + "px"); // offset good aesthetically and prevents "event bubbling" when tooltip blocks circle
+  mousePos = { x: event.clientX, y: event.clientY };
+  /*Tooltip.style("left", (mousePos.x + body.scrollLeft + 50) + "px"); // offset good aesthetically and prevents "event bubbling" when tooltip blocks circle
   Tooltip.style("top", (mousePos.y + body.scrollTop - 10) + "px");*/
 
   let tooltipWidth = Tooltip.node().offsetWidth; // Width of the tooltip
@@ -685,10 +689,7 @@ const pointerOutOfSVG = () => {
 };
 
 const tooltipMouseover = function(event, d) {
-  /*if (mouseIsOver) {
-    console.log("H");
-    return
-  };*/
+  if (mouseIsOver) return;
   mouseIsOver = true;
   //console.log("mouseover");
   Tooltip
@@ -709,14 +710,13 @@ var tooltipMousemove = function(event, d) {
     //.style("top", (pos.y) + "px");
 }
 
-var tooltipMouseleave = function(event, d) {
-  mouseIsOver = false;
-  //console.log("mouseleave");
+var tooltipMouseleave = function(event, d, obj=null) {
   if (mouseIsDragging) return;
+  mouseIsOver = false;
   Tooltip
     .style("display", "none")
     .style("visbility", "hidden");
 
-  d3.select(this)
+  (obj == null ? d3.select(this) : obj)
     .style("stroke", "white");
 }
