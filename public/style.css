@@ -1,6 +1,16 @@
+:root {
+    --tooltip-background-color: white;
+    --node-stroke: #000;
+    --top-title-color: #393836/*#f6f4ef*/;
+    --top-subtitle-color: grey;
+    --top-blurb-h3-color: #595754/*#c9c6c0*/;
+    --body-background-color: white/*black*/;
+    --overlay-text-color: black/*white*/;
+}
+
 #tooltip {
-    background-color: white;
-    border: none;
+    background-color: var(--tooltip-background-color);
+    border: black solid 1px;
     border-radius: 5px;
     padding: 5px;
     position: absolute;
@@ -20,12 +30,12 @@ body {
     Overflow-y: scroll; 
 }
 body { margin:0; position:fixed; top:0; right:0; bottom:0; left:0; }
-circle { stroke: #fff; stroke-width: 1.5px; }
+circle { stroke: var(--node-stroke); stroke-width: 0px; }
 line { stroke: #999; stroke-opacity: 0.6; }
 
 body {
 font-family: sans-serif;
-background-color: black;
+background-color: var(--body-background-color);
 }
 
 #top-intro {
@@ -36,7 +46,7 @@ padding-right: 70px;
 
 #top-title {
 font-size: 57px;
-color: #f6f4ef;
+color: var(--top-title-color);
 font-family: 'IM Fell DW Pica', serif;
 margin-bottom: -12px;
 margin-top: 20px;
@@ -52,7 +62,7 @@ font-weight: 300;
 margin-top: 11px;
 line-height: 150%;
 padding-bottom: 0px;
-color: grey;
+color: var(--top-subtitle-color);
 }
 
 #top-blurb { 
@@ -66,7 +76,7 @@ color: #777777;
 }
 #top-blurb h3 {
 font-size: 16px;
-color: #c9c6c0;
+color: var(--top-blurb-h3-color);
 font-family: 'IM Fell DW Pica', serif;
 margin-bottom: -8px;
 }
@@ -240,6 +250,6 @@ color: white;
 }
 
 .overlay-text {
-fill: white;
+fill: var(--overlay-text-color);
 font-family: Arial, sans-serif;
 }

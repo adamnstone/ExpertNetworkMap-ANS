@@ -17,7 +17,8 @@ const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, c
         .attr('y', d => yScale(d) + y)
         .attr('width', width)
         .attr('height', yScale.bandwidth())
-        .attr('stroke', 'black')
+        .attr('stroke', CAROUSEL_RECT_STROKE_COLOR)
+        .attr('stroke-width', CAROUSEL_RECT_STROKE_WIDTH)
         .attr('fill', CAROUSEL_OPTION_COLOR/*d => color(d)*/)
         .on('click', (event, d) => {
             movePointerTo(d);
@@ -74,7 +75,7 @@ const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, c
         .attr("y", outerRectangle.top + y)
         .attr("width", outerRectangle.width)
         .attr("height", outerRectangle.height)
-        .attr("fill", "white")
+        .attr("fill", CAROUSEL_SELECTOR_COLOR)
         .attr("mask", "url(#myMask)");
 
     const movePointerTo = d => {

@@ -16,13 +16,13 @@ const createdBy = () => {
             .append("a")
             .attr("xlink:href", lnk)
             .attr("target", "_blank") 
-            .style("fill", "#aaaaff")
+            .style("fill", OVERLAY_TEXT_LINK_COLOR)
             .attr("font-size", "14px")
             .text(lnk_txt);
     };
 
     createTxt(50, "Created by", "Adam Stone", "https://fabacademy.org/2023/labs/charlotte/students/adam-stone/")
-    createTxt(35, "For documentation", "click here", "https://gitlab.fabcloud.org/pub/project/expert-network-map/-/blob/main/documentation.md")
+    createTxt(35, "For documentation", "click here", "https://gitlab.fabcloud.org/pub/project/expert-network-map/-/blob/b15d89d91454904d523efbfc174db7638cc8f462/documentation.md")
     createTxt(20, "Took inspiration from", "Nadieh Bremer", "https://royalconstellations.visualcinnamon.com/")
     createTxt(5, "Recieved guidance and support from", "Francisco Sanchez", "https://www.fablabs.io/users/francisco")
 };

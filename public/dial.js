@@ -64,7 +64,7 @@ const initializeDial = (svg, callback) => {
         .text("Minimum Times Referenced")
         .attr("font-family", "sans-serif")
         .attr("font-size", "13px")
-        .attr("fill", "white");
+        .attr("fill", DIAL_TEXT_COLOR);
     centerText(textElem, dialX);
 
     numText = svg.append("text");
@@ -74,7 +74,7 @@ const initializeDial = (svg, callback) => {
         .text("20")
         .attr("font-family", "sans-serif")
         .attr("font-size", "40px")
-        .attr("fill", "white");
+        .attr("fill", DIAL_TEXT_COLOR);
     let numTextWidth = numText.node().getBBox().width;
     numText.attr("x", (dialX - (numTextWidth / 2)));
 
@@ -167,7 +167,7 @@ const initializeDial = (svg, callback) => {
     dialGroup.append("circle")
         .attr("r", radius)
         .style("fill", "none")
-        .style("stroke", FAB_PALETTE[0])
+        .style("stroke", DIAL_OUTLINE_COLOR)
         .style("stroke-width", `${strokeWidth}px`);
 
     dialGroup.append("line")
@@ -175,7 +175,7 @@ const initializeDial = (svg, callback) => {
         .attr("y1", 0)
         .attr("x2", 0)
         .attr("y2", -(radius - strokeWidth))
-        .style("stroke", 'grey'/*FAB_PALETTE[6]*/)
+        .style("stroke", DIAL_STICK_COLOR/*FAB_PALETTE[6]*/)
         .style("stroke-width", `${strokeWidth}px`)
         .style("stroke-linecap", "round");
 
