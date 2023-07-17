@@ -1,3 +1,17 @@
+const NODE_STROKE_WIDTH_HIGHLIGHTED = "1.5px",
+      HOVER_NODE_STROKE_COLOR = "black",
+      NOT_HOVERING_NODE_STROKE_WIDTH = "0px",
+      NOT_HOVERING_NODE_STROKE_COLOR = "",
+      RGB_LINE_COLOR = "0,0,0",
+      LINE_WIDTH = "0.3px",
+      CAROUSEL_RECT_STROKE_COLOR = "",
+      CAROUSEL_RECT_STROKE_WIDTH = "0px",
+      CAROUSEL_SELECTOR_COLOR = "black",
+      DIAL_OUTLINE_COLOR = "grey"/*FAB_PALETTE[0]*/,
+      DIAL_TEXT_COLOR = "black"/*"white"*/;
+
+      // TO MODIFY WITH CSS: tooltip stroke + stroke-width, can make node stroke more efficient, text color
+
 const SCALE_FACTOR = 1,
       forceBoundaryMargin = 30;
 

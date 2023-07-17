@@ -145,8 +145,8 @@ const calculateMinMax = (ns, ls, topic) => {
       .attr("y1", 0)
       .attr("y2", 0);
 
-    enter.append("stop").attr("offset", "0%").attr("stop-color", "rgba(255,255,255,1)");
-    enter.append("stop").attr("offset", "100%").attr("stop-color", "rgba(255,255,255,0)");
+    enter.append("stop").attr("offset", "0%").attr("stop-color", "rgba(" + RGB_LINE_COLOR + ",1)");
+    enter.append("stop").attr("offset", "100%").attr("stop-color", "rgba(" + RGB_LINE_COLOR + ",0)");
     
     d3.select("defs").selectAll("linearGradient").each(function(e,i) {
       //console.log(i, d, this);
@@ -226,7 +226,7 @@ const createAndFormatSVG = () => {
     .attr("viewBox", [0, 0, width, height])
     .style("max-width", "100%")
     .style("height", "auto")
-    .style("background-color", "black");
+    .style("background-color", "white");
 
     transformation = svg.node().getCTM();
    svgPoint = svg.node().createSVGPoint();
@@ -244,7 +244,7 @@ const linksToLink = isFirst => {
 
     sel.enter().append("path").merge(sel)
         .attr("fill", "none") //ADDED
-        .attr("stroke-width", "1px"/*d => Math.sqrt(d.value)*/) // for 
+        .attr("stroke-width", LINE_WIDTH/*d => Math.sqrt(d.value)*/) // for 
         .style("stroke-linecap", "round")
         .attr("opacity", data => (normalize(data.value, 0, maxStrength) / 2 + 0.5)/ SCALE_FACTOR);
         //console.log("do I need to set opacity here?");
@@ -698,7 +698,8 @@ const tooltipMouseover = function(event, d) {
     .style("visibility", "visible");
   
   d3.select(this)
-    .style("stroke", "black");
+    .style("stroke", HOVER_NODE_STROKE_COLOR)
+    .style("stroke-width", NODE_STROKE_WIDTH_HIGHLIGHTED);
 }
 
 var tooltipMousemove = function(event, d) {
@@ -719,5 +720,6 @@ var tooltipMouseleave = function(event, d, obj=null) {
     .style("visbility", "hidden");
 
   (obj == null ? d3.select(this) : obj)
-    .style("stroke", "white");
+    .style("stroke", NOT_HOVERING_NODE_STROKE_COLOR)
+    .style("stroke-width", NOT_HOVERING_NODE_STROKE_WIDTH/*"white"*/);
 }

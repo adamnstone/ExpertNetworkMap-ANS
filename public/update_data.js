@@ -96,7 +96,7 @@ const attributeCallbacks = [
     },
     (data, calcs, absl) => {//also from linksToLink
         calcs.link.attr("fill", "none") //ADDED
-            .attr("stroke-width", "1px")
+            .attr("stroke-width", LINE_WIDTH)
             .style("stroke-linecap", "round");
     },
     (data, calcs, absl) => {
@@ -199,13 +199,13 @@ const attributeCallbacks = [
             }
         
             if (sourceIsOn && targetIsOn) {
-              return "rgba(255,255,255,1)"; // this used to have opacity being set !!
+              return "rgba(" + RGB_LINE_COLOR + ",1)"; // this used to have opacity being set !!
             }
             else if (sourceIsOn || targetIsOn) {
               return `url(#${getGradientID(data)})`;
             }
             else {
-              return "rgba(255,255,255,0.05)";
+              return "rgba(" + RGB_LINE_COLOR + ",0.05)";
             }
           });
     },
