@@ -1,5 +1,9 @@
 # Expert Network Map Documetation
 
+## Iteration 11
+
+- initial load time decreased by combining all `JavaScript` files other than libraries into `combined.js`
+
 ## Iteration 10
 
 ### Updates
