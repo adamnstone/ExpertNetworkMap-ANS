@@ -3,6 +3,7 @@
 ## Iteration 11
 
 - initial load time decreased by combining all `JavaScript` files other than libraries into `combined.js`
+- `combined.js` shrunk using a [minifier tool](https://www.toptal.com/developers/javascript-minifier)
 
 ## Iteration 10
 

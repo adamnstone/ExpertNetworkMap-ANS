@@ -54,7 +54,7 @@ Multiselect.prototype = {
     $(document).on("click", that.selector + ".multiselect option", function(e) {
     var selection = $(this).attr("value");
     var optionsCount = $(that.selector + ".multiselect option").length ;//- 1;  // -1 for 'All' option
-    console.log(selection);
+    //console.log(selection);
     if (selection == "All") {
         if (that.selections.search("All") < 0) {
         // Select All
@@ -65,10 +65,10 @@ Multiselect.prototype = {
         }
     } else {
         var io = that.selections.search(selection);
-        console.log("IO", io);
+        //console.log("IO", io);
         if(io < 0) that.selections.push(selection);
         else that.selections.splice(io, 1);
-        console.log(optionsCount, that.selections.length, that.selections)
+        //console.log(optionsCount, that.selections.length, that.selections)
         // If not all options are selected, deselect "All"
         if (that.selections.length !== optionsCount && that.selections.search("All") >= 0) {
         const res = that.selections.search("All");
@@ -76,10 +76,10 @@ Multiselect.prototype = {
         }
         // If all options are selected, also select 'All'
         else if (that.selections.length === optionsCount - 1 && that.selections.search("All") < 0) {
-        console.log("adding all");
+        //console.log("adding all");
         that.selections.push('All');
         }
-        console.log("NEW", that.selections.length, optionsCount - 1, that.selections.search("All"));
+        //console.log("NEW", that.selections.length, optionsCount - 1, that.selections.search("All"));
     }
 
     that.selectionStatus();

@@ -304,7 +304,6 @@ function dragstarted(event, d) {
     d.fx = null;
     d.fy = null;
     mouseIsDragging = false;
-    console.log("dragend", pointerOutOfSVG());
     const pointerOut = pointerOutOfSVG();
     if (pointerOut) {
       tooltipMouseleave(null, null, objectBeingDragged);
@@ -570,9 +569,9 @@ const createPie = () => {
     pieData[i] = 1;
   }
 
-  var pieColor = d3.scaleOrdinal()
+  /*var pieColor = d3.scaleOrdinal()
   .domain(Object.keys(pieData))
-  .range(COLOR_PALETTE);
+  .range(COLOR_PALETTE);*/
 
   var pie = d3.pie()
   .value(function(d) {return d.value; })
