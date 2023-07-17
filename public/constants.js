@@ -8,7 +8,8 @@ const NODE_STROKE_WIDTH_HIGHLIGHTED = "1.5px",
       CAROUSEL_RECT_STROKE_WIDTH = "0px",
       CAROUSEL_SELECTOR_COLOR = "black",
       DIAL_OUTLINE_COLOR = "grey"/*FAB_PALETTE[0]*/,
-      DIAL_TEXT_COLOR = "black"/*"white"*/;
+      DIAL_TEXT_COLOR = "black"/*"white"*/,
+      OVERLAY_TEXT_LINK_COLOR = "#7e7eed/*"#aaaaff"*/;
 
       // TO MODIFY WITH CSS: tooltip stroke + stroke-width, can make node stroke more efficient, text color
 

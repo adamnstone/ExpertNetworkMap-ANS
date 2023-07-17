@@ -16,7 +16,7 @@ const createdBy = () => {
             .append("a")
             .attr("xlink:href", lnk)
             .attr("target", "_blank") 
-            .style("fill", "#aaaaff")
+            .style("fill", OVERLAY_TEXT_LINK_COLOR)
             .attr("font-size", "14px")
             .text(lnk_txt);
     };
