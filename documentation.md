@@ -4,6 +4,7 @@
 
 - initial load time decreased by combining all `JavaScript` files other than libraries into `combined.js`
 - `combined.js` shrunk using a [minifier tool](https://www.toptal.com/developers/javascript-minifier)
+- superfluous comments removed and code prettified using [beautifier.io](https://beautifier.io/)
 
 ## Iteration 10
 

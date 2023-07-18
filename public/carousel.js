@@ -1,5 +1,4 @@
 const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, colorPalette) => {
-
     const g = svg.append("g");
 
     const yScale = d3.scaleBand()
@@ -99,7 +98,7 @@ const initializeCarousel = (callback, carousel_data, width, height, x, y, svg, c
 
     text
         .style('text-anchor', 'middle')
-        .style('fill', CAROUSEL_TEXT_COLOR/*d => {if (d == 'Electronics Design' || d == "Embedded Networking and Communications") return 'white';return 'black';}*/)
+        .style('fill', CAROUSEL_TEXT_COLOR)
         .attr("font-weight", 700)
         .attr("font-family", "Saira")
         .attr("font-size", 13)

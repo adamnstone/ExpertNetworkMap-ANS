@@ -1,11 +1,11 @@
 :root {
     --tooltip-background-color: white;
     --node-stroke: #000;
-    --top-title-color: #393836/*#f6f4ef*/;
+    --top-title-color: #393836;
     --top-subtitle-color: grey;
-    --top-blurb-h3-color: #595754/*#c9c6c0*/;
-    --body-background-color: white/*black*/;
-    --overlay-text-color: black/*white*/;
+    --top-blurb-h3-color: #595754;
+    --body-background-color: white;
+    --overlay-text-color: black;
 }
 
 #tooltip {
@@ -18,238 +18,264 @@
     display: none;
     pointer-events: none;
 }
+
 #tooltip span {
     color: black;
-    font-family: 'Saira';/*'IM Fell DW Pica', serif;*/
+    font-family: 'Saira';
+    /*'IM Fell DW Pica', serif;*/
 }
 
 html {
     Overflow-y: auto;
 }
-body {
-    Overflow-y: scroll; 
-}
-body { margin:0; position:fixed; top:0; right:0; bottom:0; left:0; }
-circle { stroke: var(--node-stroke); stroke-width: 0px; }
-line { stroke: #999; stroke-opacity: 0.6; }
 
 body {
-font-family: sans-serif;
-background-color: var(--body-background-color);
+    Overflow-y: scroll;
+}
+
+body {
+    margin: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+circle {
+    stroke: var(--node-stroke);
+    stroke-width: 0px;
+}
+
+line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: var(--body-background-color);
 }
 
 #top-intro {
-margin: 0 auto;
-padding-left: 70px;
-padding-right: 70px;
+    margin: 0 auto;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 
 #top-title {
-font-size: 57px;
-color: var(--top-title-color);
-font-family: 'IM Fell DW Pica', serif;
-margin-bottom: -12px;
-margin-top: 20px;
-margin-right: 20px;
-}
-#intro-title {
-width: 46%;
-display: inline-block;
-}
-#top-subtitle {
-font-size: 17px;
-font-weight: 300;
-margin-top: 11px;
-line-height: 150%;
-padding-bottom: 0px;
-color: var(--top-subtitle-color);
+    font-size: 57px;
+    color: var(--top-title-color);
+    font-family: 'IM Fell DW Pica', serif;
+    margin-bottom: -12px;
+    margin-top: 20px;
+    margin-right: 20px;
 }
 
-#top-blurb { 
-margin-top: 20px;
+#intro-title {
+    width: 46%;
+    display: inline-block;
 }
+
+#top-subtitle {
+    font-size: 17px;
+    font-weight: 300;
+    margin-top: 11px;
+    line-height: 150%;
+    padding-bottom: 0px;
+    color: var(--top-subtitle-color);
+}
+
+#top-blurb {
+    margin-top: 20px;
+}
+
 #top-blurb p {
-font-size: 11px;
-text-align: justify;
-line-height: 155%;
-color: #777777;
+    font-size: 11px;
+    text-align: justify;
+    line-height: 155%;
+    color: #777777;
 }
+
 #top-blurb h3 {
-font-size: 16px;
-color: var(--top-blurb-h3-color);
-font-family: 'IM Fell DW Pica', serif;
-margin-bottom: -8px;
+    font-size: 16px;
+    color: var(--top-blurb-h3-color);
+    font-family: 'IM Fell DW Pica', serif;
+    margin-bottom: -8px;
 }
 
 #intro-text {
-width: 45%;
-display: inline-block;
-padding-left: 50px;
-padding-right: 0px;
-vertical-align: top;
-padding-bottom: 10px;
+    width: 45%;
+    display: inline-block;
+    padding-left: 50px;
+    padding-right: 0px;
+    vertical-align: top;
+    padding-bottom: 10px;
 }
+
 #top-explanation {
-font-size: 12px;
-text-align: justify;
+    font-size: 12px;
+    text-align: justify;
 }
+
 #top-explanation p {
-line-height: 160%;
-color: #777777;
+    line-height: 160%;
+    color: #777777;
 }
+
 .noselect {
--webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
 .multiselect {
-width: 170px;
-font-size: 15px;
-padding-bottom: 4px;
-border-radius: 3px;
-border: 1px solid rgba(0, 0, 0, 0.1);
-transition: 0.2s;
-outline: none;
+    width: 170px;
+    font-size: 15px;
+    padding-bottom: 4px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: 0.2s;
+    outline: none;
 }
 
 .multiselect:hover {
-border: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .multiselect.active {
-border-bottom-left-radius: 0px;
-border-bottom-right-radius: 0px;
-border-bottom: 1px solid transparent;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom: 1px solid transparent;
 }
 
-.multiselect > .title {
-cursor: pointer;
-height: 16px;
-padding: 6px;
+.multiselect>.title {
+    cursor: pointer;
+    height: 16px;
+    padding: 6px;
 }
 
-.multiselect > .title > .text {
-max-width: 130px;
-max-height: 25px;
-display: block;
-float: left;
-overflow: hidden;
-line-height: 1.3em;
+.multiselect>.title>.text {
+    max-width: 130px;
+    max-height: 25px;
+    display: block;
+    float: left;
+    overflow: hidden;
+    line-height: 1.3em;
 }
 
-.multiselect > .title > .expand-icon,
-.multiselect > .title > .close-icon {
-float: right;
-border-radius: 50%;
-padding: 0 4px;
-border: 1px solid rgba(0, 0, 0, 0.1);
-font-weight: 700;
-transition: 0.2s;
-display: none;
+.multiselect>.title>.expand-icon,
+.multiselect>.title>.close-icon {
+    float: right;
+    border-radius: 50%;
+    padding: 0 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-weight: 700;
+    transition: 0.2s;
+    display: none;
 }
 
-.multiselect.selection > .title > .expand-icon {
-display: none;
+.multiselect.selection>.title>.expand-icon {
+    display: none;
 }
 
-.multiselect.selection > .title > .expand-icon:hover {
-border: 1px solid rgba(0, 0, 0, 0.3);
-background: rgb(203, 32, 32);
-color: #fff;
+.multiselect.selection>.title>.expand-icon:hover {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: rgb(203, 32, 32);
+    color: #fff;
 }
 
-.multiselect > .title > .expand-icon,
-.multiselect.selection > .title > .close-icon {
-display: block;
+.multiselect>.title>.expand-icon,
+.multiselect.selection>.title>.close-icon {
+    display: block;
 }
 
-.multiselect > .title > .close-icon:hover {
-border: 1px solid rgba(0, 0, 0, 0.3);
-background: rgb(203, 32, 32);
-color: #fff;
+.multiselect>.title>.close-icon:hover {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: rgb(203, 32, 32);
+    color: #fff;
 }
 
-.multiselect > .container {
-max-height: 200px;
-overflow: auto;
-margin-top: 4px;
-margin-left: -1px;
-width: 170px;
-transition: 0.2s;
-position: absolute;
-z-index: 99;
-background: #fff;
-border: 1px solid transparent;
-border-top: 1px solid rgba(0, 0, 0, 0.1);
+.multiselect>.container {
+    max-height: 200px;
+    overflow: auto;
+    margin-top: 4px;
+    margin-left: -1px;
+    width: 170px;
+    transition: 0.2s;
+    position: absolute;
+    z-index: 99;
+    background: #fff;
+    border: 1px solid transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.multiselect.active > .container {
-border: 1px solid rgba(0, 0, 0, 0.1);
-border-bottom-left-radius: 3px;
-border-bottom-right-radius: 3px;
-border-top: 0;
+.multiselect.active>.container {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top: 0;
 }
 
-.multiselect:hover > .container {
-border-top-color: rgba(0, 0, 0, 0.3);
+.multiselect:hover>.container {
+    border-top-color: rgba(0, 0, 0, 0.3);
 }
 
-.multiselect.active:hover > .container {
-border-color: rgba(0, 0, 0, 0.3);
+.multiselect.active:hover>.container {
+    border-color: rgba(0, 0, 0, 0.3);
 }
 
-.multiselect > .container > option {
-display: none;
-padding: 5px;
-cursor: pointer;
-transition: 0.2s;
-border-top: 1px solid transparent;
-border-bottom: 1px solid transparent;
+.multiselect>.container>option {
+    display: none;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 
-.multiselect > .container > option.selected {
-background: rgb(122, 175, 233);
-border-top: 1px solid rgba(0, 0, 0, 0.1);
-border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-color: #fff;
+.multiselect>.container>option.selected {
+    background: rgb(122, 175, 233);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
 
-.multiselect > .container > option:hover {
-background: rgba(0, 0, 0, 0.1);
-color: #000;
+.multiselect>.container>option:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #000;
 }
 
-.multiselect > .container > option.selected:hover {
-background: rgba(53, 112, 130, 0.4);
-color: #000;
+.multiselect>.container>option.selected:hover {
+    background: rgba(53, 112, 130, 0.4);
+    color: #000;
 }
 
-.multiselect.active > .container > option {
-display: block;
+.multiselect.active>.container>option {
+    display: block;
 }
 
 option[value=All] {
-font-weight: bold;
+    font-weight: bold;
 }
 
 #value-input {
-position: absolute;
-/*right: 120px;*/
-/*top: 48%;*/
-text-align: center;
-width: 60px;
-border: none;
-background: none;
-outline: none;
-font-size: 18px;
-color: white;
+    position: absolute;
+    /*right: 120px;*/
+    /*top: 48%;*/
+    text-align: center;
+    width: 60px;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 18px;
+    color: white;
 }
 
 .overlay-text {
-fill: var(--overlay-text-color);
-font-family: Arial, sans-serif;
+    fill: var(--overlay-text-color);
+    font-family: Arial, sans-serif;
 }

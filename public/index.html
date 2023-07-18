@@ -1,70 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expert Network Map</title>
     <link href="style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Saira:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
     <script type="text/javascript" src="jquery_download.js"></script>
-    <!--<script src="https://d3js.org/d3.v7.min.js"></script>-->
     <script src="d3js_download.js"></script>
-    <!--<script src="https://unpkg.com/d3-force-boundary@0.0.1/dist/d3-force-boundary.min.js"></script>-->
     <script src="force_boundary_download.js"></script>
-    <!--<script src="app.js" defer></script>-->
-    <!--<script src="vars.js"></script>
-    <script src="lab_region.js"></script>
-    <script src="update_data.js"></script>
-    <script src="helper_functions.js"></script>
-    <script src="constants.js"></script>
-    <script src="carousel.js"></script>
-    <script src="dial.js"></script>
-    <script src="multiselect_dropdown.js"></script>
-    <script src="overlay_text.js"></script>
-    <script src="app.js"></script>-->
     <script src="combined.js"></script>
 </head>
-<body id = "my_dataviz">
+
+<body id="my_dataviz">
     <div id="tooltip"></div>
     <div id="top-intro">
-    <div id="top-title">Expert Network Map</div>
-    <div id="intro-title">
-        <div id="top-subtitle">Six generations of Fab Academy students intertwined</div>
-        <div id="top-blurb">
-            <h3>Seek Out <i>Topic Experts</i></h3>
-            <p>The <i>Expert Network Map</i> allows users to visually identify <i>Topic Experts</i> in the Fab community. <i>Topic Experts</i> are Fab Academy students who are frequently referenced by peers. Fab Academy students often link each other's websites in their documentation, and mapping these connections creates a network intertwined across labs, years, and countries. The more times a student is referenced correlates with expertise level in specific subject areas. For current Fab Academy students, it can be extremely helpful to quickly identify <i>Topic Experts</i> to access their documentation for reference. Interacting with the Map can determine <i>Topic Experts</i> by year and specific labs. Once <i>Topic Experts</i> are found, clicking on their circle redirects the user to their Fab Academy Documentation Website.</p>
+        <div id="top-title">Expert Network Map</div>
+        <div id="intro-title">
+            <div id="top-subtitle">Six generations of Fab Academy students intertwined</div>
+            <div id="top-blurb">
+                <h3>Seek Out <i>Topic Experts</i></h3>
+                <p>The <i>Expert Network Map</i> allows users to visually identify <i>Topic Experts</i> in the Fab community. <i>Topic Experts</i> are Fab Academy students who are frequently referenced by peers. Fab Academy students often link each other's websites in their documentation, and mapping these connections creates a network intertwined across labs, years, and countries. The more times a student is referenced correlates with expertise level in specific subject areas. For current Fab Academy students, it can be extremely helpful to quickly identify <i>Topic Experts</i> to access their documentation for reference. Interacting with the Map can determine <i>Topic Experts</i> by year and specific labs. Once <i>Topic Experts</i> are found, clicking on their circle redirects the user to their Fab Academy Documentation Website.</p>
             </div>
-    </div>
-    <div id="intro-text">
-        <div id="top-explanation">
-            <p>The <i>Expert Network Map</i> allows users to navigate the massive web of interconnected students and highlights <i>Topics Experts</i> dating back to 2018. Each Fab Academy student is represented by a circle. Drag around different students to play with the data and gain insight into the interconnectedness of the Fab community.</p>
-            <p>The larger a student's circle, the more times they have been referenced. Hover over a circle to see the student's name, year, lab, and region, and click on it to open their documentation website. Click the tabs on the left to filter by topic area; click different years on the bottom left circle to highlight students from that year; use the dropdown on the top right to highlight students from certain Fab Labs; and use the dial on the bottom right to set a minimum number of references that a student must have, changing the <i>Expertise Threshold</i>.</p>
+        </div>
+        <div id="intro-text">
+            <div id="top-explanation">
+                <p>The <i>Expert Network Map</i> allows users to navigate the massive web of interconnected students and highlights <i>Topics Experts</i> dating back to 2018. Each Fab Academy student is represented by a circle. Drag around different students to play with the data and gain insight into the interconnectedness of the Fab community.</p>
+                <p>The larger a student's circle, the more times they have been referenced. Hover over a circle to see the student's name, year, lab, and region, and click on it to open their documentation website. Click the tabs on the left to filter by topic area; click different years on the bottom left circle to highlight students from that year; use the dropdown on the top right to highlight students from certain Fab Labs; and use the dial on the bottom right to set a minimum number of references that a student must have, changing the <i>Expertise Threshold</i>.</p>
             </div>
-    </div>
+        </div>
     </div>
     <div style="width:100%;position:relative;">
-  <div style="background: white; position: absolute; right: 10px; top: 10px; display: inline-block;" class="multiselect" id="countries" multiple="multiple" data-target="multi-0">
-    <div class="title noselect">
-        <span class="text">Filter Labs</span>
-        <span class="close-icon">&times;</span>
-        <span class="expand-icon">&plus;</span>
+        <div style="background: white; position: absolute; right: 10px; top: 10px; display: inline-block;" class="multiselect" id="countries" multiple="multiple" data-target="multi-0">
+            <div class="title noselect">
+                <span class="text">Filter Labs</span>
+                <span class="close-icon">&times;</span>
+                <span class="expand-icon">&plus;</span>
+            </div>
+            <div class="container">
+            </div>
+        </div>
     </div>
-    <div class="container">
-    </div>
-</div>
-</div>
-<svg xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <!--<linearGradient id="LineFadeForward" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" stop-color="rgba(153, 153, 153, 0)"/>
-        <stop offset="100%" stop-color="rgba(153, 153, 153, 1)"/>
-      </linearGradient>
-      <linearGradient id="LineFadeBackward" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" stop-color="rgba(153, 153, 153, 1)"/>
-        <stop offset="100%" stop-color="rgba(153, 153, 153, 0)"/>
-      </linearGradient>-->
-    </defs>
-  </svg>  
+    <svg xmlns="http://www.w3.org/2000/svg">
+        <defs></defs>
+    </svg>
 </body>
+
 </html>
