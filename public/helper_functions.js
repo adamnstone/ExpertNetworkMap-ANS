@@ -586,41 +586,6 @@ const centerText = (txt, xPos) => {
     txt.attr("x", (xPos - (textWidth / 2)));
 };
 
-window.addEventListener('pointermove', (event) => {
-    mousePos = {
-        x: event.clientX,
-        y: event.clientY
-    };
-
-    let tooltipWidth = Tooltip.node().offsetWidth; // Width of the tooltip
-    let tooltipHeight = Tooltip.node().offsetHeight; // Height of the tooltip
-    let windowWidth = document.documentElement.clientWidth; // Width of the window
-    let windowHeight = document.documentElement.clientHeight; // Height of the window
-
-    let x = event.clientX + body.scrollLeft + 50;
-    let y = event.clientY + body.scrollTop - 10;
-
-    // Consider a buffer to ensure that 
-    // the tooltip doesn't touch the edge of the viewport.
-    let buffer = {
-        "x": 50,
-        "y": 10
-    };
-
-    // If the tooltip would go off the right side of the screen
-    if (x + tooltipWidth + buffer.x - body.scrollLeft > windowWidth) {
-        x = x - tooltipWidth - (50 * 2);
-    }
-
-    // If the tooltip would go off the bottom of the screen
-    if (y + tooltipHeight + buffer.y - body.scrollTop > windowHeight) {
-        y = y - tooltipHeight + (10 * 2);
-    }
-
-    Tooltip.style("left", x + "px");
-    Tooltip.style("top", y + "px");
-});
-
 const pointerOutOfSVG = () => {
     const el = document.elementFromPoint(mousePos.x, mousePos.y);
     return !(svg.node() === el || svg.node().contains(el));

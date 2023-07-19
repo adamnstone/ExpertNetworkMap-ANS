@@ -122,7 +122,6 @@ Multiselect.prototype = {
         for (var i = 0; i < opts.length; i++) {
             $(opts[i]).removeClass("selected");
         }
-        console.log(selects);
         for (var j = 0; j < selects.length; j++) {
             var select = selects[j];
             for (var i = 0; i < opts.length; i++) {

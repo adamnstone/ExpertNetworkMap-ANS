@@ -1,75 +1,110 @@
 window.onload = () => {
-  Tooltip = d3.select("#tooltip");
-  body = document.getElementsByTagName('body')[0];
+    Tooltip = d3.select("#tooltip");
+    body = document.getElementsByTagName('body')[0];
 
-  create_not_filteredFromJSON().then(() => {
-      calculateMinMaxMapFromFiltered();
-      createReferenceCache();
+    window.addEventListener('pointermove', (event) => {
+        mousePos = {
+            x: event.clientX,
+            y: event.clientY
+        };
 
-      createNumLinksDictFrom_not_filtered(nodes_not_filtered, links_not_filtered);
-      setLabs(nodes_not_filtered.map(n => n.id));
+        let tooltipWidth = Tooltip.node().offsetWidth; // Width of the tooltip
+        let tooltipHeight = Tooltip.node().offsetHeight; // Height of the tooltip
+        let windowWidth = document.documentElement.clientWidth; // Width of the window
+        let windowHeight = document.documentElement.clientHeight; // Height of the window
 
-      transferNot_filteredToArrays();
+        let x = event.clientX + body.scrollLeft + 50;
+        let y = event.clientY + body.scrollTop - 10;
 
-      calculateMaxStrength();
+        // Consider a buffer to ensure that 
+        // the tooltip doesn't touch the edge of the viewport.
+        let buffer = {
+            "x": 50,
+            "y": 10
+        };
 
-      setCurrentLabHighlightList();
-      createSimulation();
-      createAndFormatSVG();
-      initializeDefs();
-      gl_ = svg.append("g").attr("transform", "translate(150, -10)");
+        // If the tooltip would go off the right side of the screen
+        if (x + tooltipWidth + buffer.x - body.scrollLeft > windowWidth) {
+            x = x - tooltipWidth - (50 * 2);
+        }
 
-      registerLinearGradients(links_not_filtered); // so that when they are needed all of the gradients are available; 
-      // this could only use links that ever would need to have a linear gradient to improve performance
+        // If the tooltip would go off the bottom of the screen
+        if (y + tooltipHeight + buffer.y - body.scrollTop > windowHeight) {
+            y = y - tooltipHeight + (10 * 2);
+        }
 
-      nodesToNodeAndFormat();
-      createPie();
-      createOverlayText();
-      updateData({
-          minNumConnections: 20,
-          simulation,
-          svg,
-          g,
-          "gl": gl_
-      })
+        Tooltip.style("left", x + "px");
+        Tooltip.style("top", y + "px");
+    });
 
-      initializeCarousel(d => {
-          currentTopic = d;
-          if (currentTopic != "All") {
-              mapMin = minMaxMap[currentTopic].min;
-              mapMax = minMaxMap[currentTopic].max;
-          } else {
-              [mapMin, mapMax] = [1, 60];
-          }
-          updateDialText(currentDialDeg, dialCallback); // calls updateData
-      }, topicCarouselList, 350, 600, 30, 10, svg, FAB_PALETTE);
+    create_not_filteredFromJSON().then(() => {
+        calculateMinMaxMapFromFiltered();
+        createReferenceCache();
 
-      const labCallback = lab_list => {
-          currentLabHighlightList = lab_list;
-          updateData({
-              minNumConnections,
-              simulation,
-              svg,
-              g,
-              "gl": gl_
-          });
-      };
+        createNumLinksDictFrom_not_filtered(nodes_not_filtered, links_not_filtered);
+        setLabs(nodes_not_filtered.map(n => n.id));
 
-      const dialCallback = (roundedVal, first = false) => {
-          minNumConnections = roundedVal;
-          updateData({
-              "minNumConnections": roundedVal,
-              simulation,
-              svg,
-              g,
-              "gl": gl_,
-              "isFirst": first
-          });
-      };
+        transferNot_filteredToArrays();
 
-      initializeDial(svg, dialCallback);
+        calculateMaxStrength();
 
-      initializeLabMultiselect(labs, labCallback);
+        setCurrentLabHighlightList();
+        createSimulation();
+        createAndFormatSVG();
+        initializeDefs();
+        gl_ = svg.append("g").attr("transform", "translate(150, -10)");
 
-  });
+        registerLinearGradients(links_not_filtered); // so that when they are needed all of the gradients are available; 
+        // this could only use links that ever would need to have a linear gradient to improve performance
+
+        nodesToNodeAndFormat();
+        createPie();
+        createOverlayText();
+        updateData({
+            minNumConnections: 20,
+            simulation,
+            svg,
+            g,
+            "gl": gl_
+        })
+
+        initializeCarousel(d => {
+            currentTopic = d;
+            if (currentTopic != "All") {
+                mapMin = minMaxMap[currentTopic].min;
+                mapMax = minMaxMap[currentTopic].max;
+            } else {
+                [mapMin, mapMax] = [1, 60];
+            }
+            updateDialText(currentDialDeg, dialCallback); // calls updateData
+        }, topicCarouselList, 350, 600, 30, 10, svg, FAB_PALETTE);
+
+        const labCallback = lab_list => {
+            currentLabHighlightList = lab_list;
+            updateData({
+                minNumConnections,
+                simulation,
+                svg,
+                g,
+                "gl": gl_
+            });
+        };
+
+        const dialCallback = (roundedVal, first = false) => {
+            minNumConnections = roundedVal;
+            updateData({
+                "minNumConnections": roundedVal,
+                simulation,
+                svg,
+                g,
+                "gl": gl_,
+                "isFirst": first
+            });
+        };
+
+        initializeDial(svg, dialCallback);
+
+        initializeLabMultiselect(labs, labCallback);
+
+    });
 };
