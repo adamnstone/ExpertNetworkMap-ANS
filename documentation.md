@@ -2,7 +2,7 @@
 
 ## Iteration 12
 
-- *bug fix*: `mousemove` event listener declaration moved to after DOM has loaded to avoid an error if pointer moves during a refresh
+- *bug fix*: `pointermove` event listener declaration moved to after DOM has loaded to avoid an error if pointer moves during a refresh
 - documentation link changed from permalink to display future iterations
 
 ## Iteration 11
