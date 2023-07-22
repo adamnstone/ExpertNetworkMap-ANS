@@ -4,6 +4,7 @@
 
 - Python code, cached data, and *final_data* CSV file moved into repo `data-collection` directory; [see documentation here](https://fabacademy.org/2023/labs/charlotte/students/adam-stone/lessons/side-projects/lab-link-graph/#how-to-run-python-data-collection)
 - [Mattermost Channel link](https://chat.academany.org/fabacademy-2023/channels/fab-academy-data-viz) added to website
+- Oceania given a color (`fablabwgtn`)
 
 ## Iteration 12
 
