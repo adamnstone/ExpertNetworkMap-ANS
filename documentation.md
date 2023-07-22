@@ -1,10 +1,14 @@
 # Expert Network Map Documetation
 
+## Iteration 13
+
+- Python code, cached data, and *final_data* CSV file moved into repo `data-collection` directory; [see documentation here](https://fabacademy.org/2023/labs/charlotte/students/adam-stone/lessons/side-projects/lab-link-graph/#how-to-run-python-data-collection)
+- [Mattermost Channel link](https://chat.academany.org/fabacademy-2023/channels/fab-academy-data-viz) added to website
+
 ## Iteration 12
 
 - *bug fix*: `pointermove` event listener declaration moved to after DOM has loaded to avoid an error if pointer moves during a refresh
 - documentation link changed from permalink to display future iterations
-- Python code, cached data, and *final_data* CSV file moved into repo `data-collection` directory; [see documentation here](https://fabacademy.org/2023/labs/charlotte/students/adam-stone/lessons/side-projects/lab-link-graph/#how-to-run-python-data-collection)
 
 ## Iteration 11
 
