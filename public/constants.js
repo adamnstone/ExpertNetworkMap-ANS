@@ -41,14 +41,16 @@ const NODE_REGION_PALETTE = [
     "#f04260",
     "#4abfbd",
     "#284fb5",
-    "#f05be1"
+    "#f05be1",
+    "#87743d"
 ];
 const continent = [
     "Africa",
     "Asia",
     "Europe",
     "North America",
-    "South America"
+    "South America",
+    "Oceania"
 ];
 const continentColor = {};
 for (let i = 0; i < NODE_REGION_PALETTE.length; i++) continentColor[continent[i]] = NODE_REGION_PALETTE[i];
