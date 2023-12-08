@@ -1,3 +1,4 @@
+// run when page loads
 window.onload = () => {
     Tooltip = d3.select("#tooltip");
     body = document.getElementsByTagName('body')[0];
@@ -37,29 +38,55 @@ window.onload = () => {
         Tooltip.style("top", y + "px");
     });
 
+    // load the json data and filter out all references by students to themselves
     create_not_filteredFromJSON().then(() => {
+
+        // store the most and least amount of references for a student in each subject area
         calculateMinMaxMapFromFiltered();
+
+        // go through all of the data and create an dictionary where you can look up a student and their subject area and recieve the number of times they were referenced in that subject area
         createReferenceCache();
 
+        // create a dictionary of each time a student referenced another student for a certain topic
         createNumLinksDictFrom_not_filtered(nodes_not_filtered, links_not_filtered);
+
+        // stores each student's lab (using their website URL) and removes all repeats
         setLabs(nodes_not_filtered.map(n => n.id));
 
+        // stores all of the nodes and edges who meet the default filter criteria into the main `nodes`, `node_ids`, and `links` arrays
         transferNot_filteredToArrays();
 
+        // stores the strongest edge between nodes
         calculateMaxStrength();
 
+        // make the lab filter display the default option
         setCurrentLabHighlightList();
+
+        // initialize the force graph simulation
         createSimulation();
+
+        // initialize the HTML elements that the SVGs of the visualization
         createAndFormatSVG();
+
+        // initialize linear gradients
         initializeDefs();
+
+        // create the container SVG element for the graph
         gl_ = svg.append("g").attr("transform", "translate(150, -10)");
 
-        registerLinearGradients(links_not_filtered); // so that when they are needed all of the gradients are available; 
-        // this could only use links that ever would need to have a linear gradient to improve performance
+        // pair the linear gradient SVGs to all of the references, not only the selected ones, so that elements aren't created in real-time as filters are changed. (Doesn't take into account that some edges will never have a linear gradient)
+        registerLinearGradients(links_not_filtered);
 
+        // create SVG container for all of the nodes
         nodesToNodeAndFormat();
+
+        // initialize year-select pie
         createPie();
+
+        // create overlay text and links, such as link to documentation, mattermost channel, etc
         createOverlayText();
+
+        // update the graph to display network on the SVG
         updateData({
             minNumConnections: 20,
             simulation,
@@ -68,7 +95,8 @@ window.onload = () => {
             "gl": gl_
         })
 
-        initializeCarousel(d => {
+        // initialize subject-area-selection carousel
+        initializeCarousel(d => { // anonymous function defines behavior on carousel update
             currentTopic = d;
             if (currentTopic != "All") {
                 mapMin = minMaxMap[currentTopic].min;
@@ -76,12 +104,13 @@ window.onload = () => {
             } else {
                 [mapMin, mapMax] = [1, 60];
             }
-            updateDialText(currentDialDeg, dialCallback); // calls updateData
+            updateDialText(currentDialDeg, dialCallback);
         }, topicCarouselList, 350, 600, 30, 10, svg, FAB_PALETTE);
 
+        // defines callback function for lab filter being altered 
         const labCallback = lab_list => {
             currentLabHighlightList = lab_list;
-            updateData({
+            updateData({ // updates visualization with new filters
                 minNumConnections,
                 simulation,
                 svg,
@@ -90,9 +119,10 @@ window.onload = () => {
             });
         };
 
+        // defines callback function for minimum number of times referenced filter being altered
         const dialCallback = (roundedVal, first = false) => {
             minNumConnections = roundedVal;
-            updateData({
+            updateData({ // updates visualization wth new filters
                 "minNumConnections": roundedVal,
                 simulation,
                 svg,
@@ -102,8 +132,10 @@ window.onload = () => {
             });
         };
 
+        // initializes minimum number of times referenced dial
         initializeDial(svg, dialCallback);
 
+        // initialize lab multiselect dropdown functionalityW
         initializeLabMultiselect(labs, labCallback);
 
     });

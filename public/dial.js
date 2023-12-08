@@ -1,12 +1,14 @@
 let prevSentToCallback;
-const strokeWidth = 12;
-const dialY = pieY;
-const dialX = width - pieX;
+const strokeWidth = 12; // stroke width of the line of the dial
+const dialY = pieY; // y-coordinate of dial
+const dialX = width - pieX; // x-coordinate of dial
 
+// scale rotation in degrees of dial to number of times referenced filter value
 const generateDialMapScale = () => {
     return d3.scaleLinear().domain([startDegree, endDegree]).range([clamp(mapMin, 1, Infinity), mapMax])
 };
 
+// update number on dial when turned and callback if now integer
 const updateDialText = (currentDialDeg, callback) => {
     if (!dialGroup) return;
     dialGroup.attr("transform", `translate(${dialX}, ${dialY}) rotate(${currentDialDeg})`);
@@ -24,6 +26,7 @@ const updateDialText = (currentDialDeg, callback) => {
     callback(rounded);
 };
 
+// helper function to convert between coordinates for placement
 function convertSVGtoScreenCoordinates(svgElement, dialX, dialY) {
     var pt = svgElement.createSVGPoint();
     pt.x = dialX;
@@ -38,6 +41,7 @@ function convertSVGtoScreenCoordinates(svgElement, dialX, dialY) {
     };
 }
 
+// helper function for dragging trigonometry 
 function calculateAngle(center, point) {
     let dy = point.y - center.y;
     let dx = point.x - center.x;
@@ -45,6 +49,7 @@ function calculateAngle(center, point) {
     return theta;
 }
 
+// create dial SVG objects and set attributes (font, position, etc)
 const initializeDial = (svg, callback) => {
     var width = +svg.attr("width"),
         height = +svg.attr("height"),
