@@ -65,9 +65,11 @@ Multiselect.prototype = {
                     that.selections = [];
                 }
             } else {
+                
                 var io = that.selections.search(selection);
-                if (io < 0) that.selections.push(selection);
+                if (io < 0) that.selections.push(selection)
                 else that.selections.splice(io, 1);
+
                 // If not all options are selected, deselect "All"
                 if (that.selections.length !== optionsCount && that.selections.search("All") >= 0) {
                     const res = that.selections.search("All");
@@ -82,7 +84,16 @@ Multiselect.prototype = {
             that.selectionStatus();
             that.setSelectionsString();
             if (typeof callback === "function") {
-                callback(that.selections);
+                let selectionCodes = []; 
+                that.selections.forEach(s => {
+                    if (s in codesFromNames) {
+                        codesFromNames[s].forEach(c => {
+                            selectionCodes.push(c);
+                        })
+                    }
+                    else selectionCodes.push(s);
+                });
+                callback(selectionCodes);
             }
         });
     },
@@ -161,8 +172,21 @@ const initializeLabMultiselect = (labs, callback) => {
 
     const select = d3.select("#my_dataviz").select("div div.container");
 
+    let labNamesToDisplay = [];
+
+    labs.forEach(l => {
+        if (Object.keys(namesFromCodes).includes(l) && !labNamesToDisplay.includes(namesFromCodes[l])) {
+            labNamesToDisplay.push(namesFromCodes[l]);
+        }
+        else if (!Object.keys(namesFromCodes).includes(l)){
+            labNamesToDisplay.push(l);
+        }
+    });
+
+    labNamesToDisplay.sort();
+
     select.selectAll("option")
-        .data(["All"].concat(labs)) // Add "All" option to the start of the list
+        .data(["All"].concat(labNamesToDisplay)) // Add "All" option to the start of the list
         .join("option")
         .attr("value", d => d)
         .html(d => d);
