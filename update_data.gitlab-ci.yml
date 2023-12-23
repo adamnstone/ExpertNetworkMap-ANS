@@ -1,0 +1,4 @@
+update_data:
+  image: python:3.9-slim-buster
+  script:
+    - echo "This is a test"
