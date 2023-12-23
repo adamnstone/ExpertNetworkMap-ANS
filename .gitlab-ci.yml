@@ -6,7 +6,7 @@ update_data:
   script:
     - echo "This is a test of the pipeline schedule"
   rules:
-    if: $TRIGGER_CONTEXT == "pipeline_test"
+    - if: $TRIGGER_CONTEXT == "pipeline_test"
     
 pages:
   image: busybox
