@@ -12,6 +12,11 @@ update_data:
     - echo "Running test.py"
     - python test.py
     - echo "test.py run complete!"
+    - git config --global user.email "ci-cd-bot@example.com"
+    - git config --global user.name "CI/CD Bot""
+    - git add new_file.txt # Add the file that was changed
+    - git commit -m "new_file.txt created from pipeline"
+    - git push origin HEAD:pipeline_testing # Replace 'master' with your branch name
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
     
