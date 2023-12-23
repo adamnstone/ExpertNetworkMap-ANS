@@ -1,7 +1,12 @@
 # Functions that should be executed before the build script is run
 before_script: []
 
+stages:
+  - build
+  - production
+
 update_data:
+  stage: build
   image: python:3.9-slim-buster
   script:
     - echo "This is a test of the pipeline schedule"
@@ -9,6 +14,7 @@ update_data:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
     
 pages:
+  stage: production
   image: busybox
   script:
     - echo "The site will be deployed to $CI_PAGES_URL"
