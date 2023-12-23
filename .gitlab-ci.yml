@@ -7,7 +7,7 @@ stages:
 
 update_data:
   stage: build
-  image: python:3.9-slim-buster
+  image: python:3.9
   script:
     - echo "Running test.py"
     - python test.py
