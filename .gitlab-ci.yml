@@ -11,6 +11,7 @@ update_data:
   script:
     - echo "Running update-data/main.py"
     - cd update-data
+    - pip install --upgrade pip
     - pip install -r requirements.txt
     - python main.py
     - cd ..
