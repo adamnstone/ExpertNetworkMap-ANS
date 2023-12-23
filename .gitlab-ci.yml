@@ -1,8 +1,15 @@
-# The Docker image that will be used to build your app
-image: busybox
 # Functions that should be executed before the build script is run
 before_script: []
+
+update_data:
+  image: python:3.9-slim-buster
+  script:
+    - echo "This is a test of the pipeline schedule"
+  rules:
+    if: $TRIGGER_CONTEXT == "pipeline_test"
+    
 pages:
+  image: busybox
   script:
     - echo "The site will be deployed to $CI_PAGES_URL"
   artifacts:
