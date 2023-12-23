@@ -9,14 +9,17 @@ update_data:
   stage: build
   image: python:3.9
   script:
-    - echo "Running test.py"
-    - python test.py
-    - echo "test.py run complete!"
+    - echo "Running update-data/main.py"
+    - cd update-data
+    - pip install -r /requirements.txt
+    - python main.py
+    - cd ..
+    - echo "Running update-data/main.py complete!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add new_file.txt 
-    - git commit -m "new_file.txt created from pipeline"
+    - git add . 
+    - git commit -m "update-data/main.py ran"
     - git push origin HEAD:pipeline_testing 
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
