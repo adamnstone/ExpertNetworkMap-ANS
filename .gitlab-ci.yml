@@ -9,7 +9,9 @@ update_data:
   stage: build
   image: python:3.9-slim-buster
   script:
-    - echo "This is a test of the pipeline schedule"
+    - echo "Running test.py"
+    - python test.py
+    - echo "test.py run complete!"
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
     
