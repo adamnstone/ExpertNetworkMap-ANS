@@ -63,9 +63,9 @@ TOPIC_SEARCH_TERMS = [
 
 # returns file content from a repo
 def get_file_content(file_path, project_id, default_branch_name):
-    print(f"Getting file content: {file_path}, {project_id}")
+    #print(f"Getting file content: {file_path}, {project_id}")
     safe_url = f"https://gitlab.fabcloud.org/api/v4/projects/{project_id}/repository/files/{urllib.parse.quote(file_path, safe='')}?ref={default_branch_name}"
-    print(safe_url)
+    #print(safe_url)
     response = requests.get(safe_url).json()
     if 'message' in response:
         if '404' in response['message']:
@@ -81,7 +81,7 @@ def get_repo_name(project_id):
     if save_exists("repo_names", f"{project_id}"):
         return load_obj("repo_names", f"{project_id}")
     safe_url = f"https://gitlab.fabcloud.org/api/v4/projects/{project_id}"
-    print(safe_url)
+    #print(safe_url)
     response = requests.get(safe_url).json()
     web_url = response['web_url']
     if 'message' in response:
@@ -100,13 +100,13 @@ def get_file_repo_list(id):
     all_file_paths = []
     project = GL.projects.get(id)
     all_directories = project.repository_tree(recursive=True, all=True, per_page=200) # pagination bug patched
-    print("Where")
+    #print("Where")
     for item in all_directories:
         print(item)
         path = item['path']
         if path.split('.')[-1].lower().strip() in VALID_EXTENSOINS:
             all_file_paths.append(path)
-    print("here")
+    #print("here")
     return all_file_paths
 
 # get the IDs of the subgroups of a GitLab project
@@ -172,12 +172,12 @@ def get_all_student_repo_ids(year, year_subgroup_id, all_student_names):
     all_lab_ids = get_subgroup_ids(year_subgroup_id)
     for id in all_lab_ids:
         for sub_id in get_subgroup_ids(id):
-            print(sub_id)
+            #print(sub_id)
             all_student_repo_ids.append((id, get_subproject_ids(sub_id))) # ((i, get_subproject_ids(sub_id)))
-    print("ALL STUDENT REPO IDs", all_student_repo_ids)
-    print(all_student_repo_ids)
+    #print("ALL STUDENT REPO IDs", all_student_repo_ids)
+    #print(all_student_repo_ids)
     to_return = filter_only_student_repos(all_student_repo_ids, all_student_names, year)
-    print("FILTERED", to_return)
+    #print("FILTERED", to_return)
     save_obj("student_repo_id_saves", to_return, year)
     return to_return
 
@@ -225,7 +225,7 @@ def get_references(content, year, from_url):
     people_linked = {}
     for match in pattern.finditer(str(content)):
         full_url = f"https://fabacademy.org{match.group(0)}"
-        print(f"FULL URL {full_url}")
+        #print(f"FULL URL {full_url}")
         person = format_name((match.group(0).split("/")[-2], full_url), year)
 
         link_label = None
@@ -236,10 +236,10 @@ def get_references(content, year, from_url):
         topic_search_end_ind = match.end() + CHARACTERS_EACH_DIRECTION_TOPIC_DETECTION
         if topic_search_end_ind > len(content):
             topic_search_end_ind = len(content)
-        print(f"({match.start()}, {match.end()}) -> ({topic_search_start_ind}, {topic_search_end_ind})")
+        #print(f"({match.start()}, {match.end()}) -> ({topic_search_start_ind}, {topic_search_end_ind})")
         topic_text = content.decode()[topic_search_start_ind:topic_search_end_ind].lower()
 
-        print("TOPIC TEXT", topic_text)
+        #print("TOPIC TEXT", topic_text)
         for i in range(len(TOPICS)):
             topic = TOPICS[i]
             topic_search_terms = TOPIC_SEARCH_TERMS[i]
@@ -293,7 +293,7 @@ def format_data_to_matrix(data):
     for i in range(len(students)):
         link_student_dict[students_links[i]] = students[i]
 
-    print("STUDENTS", students)
+    #print("STUDENTS", students)
 
     df = pd.crosstab(students, students)
     df.rename_axis("Referencing Students", axis=0, inplace=True)
@@ -337,7 +337,7 @@ def format_data_to_matrix(data):
 def get_all_reference_dicts(year, id):
     filename = f"{year}-{id}"
     if save_exists("reference_dict_saves", filename):
-        print(f"Save exists! {load_obj('reference_dict_saves', filename)}")
+        #print(f"Save exists! {load_obj('reference_dict_saves', filename)}")
         return load_obj("reference_dict_saves", filename)
     reference_dict_list = []
     default_branch_name_response = requests.get(f"https://gitlab.fabcloud.org/api/v4/projects/{id}/repository/branches").json()
@@ -349,13 +349,13 @@ def get_all_reference_dicts(year, id):
         print(f"Error: Default Branch Not Found (id: {id}) {default_branch_name_response} - leaving as None")
     try:
         for file in get_file_repo_list(id):
-            print(f"Checking {file}...")
+            #print(f"Checking {file}...")
             reference_dict_list.append(get_references(get_file_content(file, id, default_branch_name), year, get_repo_name(id)[1]))
-        print("Generating compiled reference dictionary...")
+        #print("Generating compiled reference dictionary...")
         compiled_reference_dict = combine_reference_dicts(reference_dict_list)
-        print(compiled_reference_dict)
+        #print(compiled_reference_dict)
         save_obj("reference_dict_saves", compiled_reference_dict, filename)
-        print(f"SAVING to {filename}")
+        #print(f"SAVING to {filename}")
         return compiled_reference_dict
     except gitlab.exceptions.GitlabGetError as e:
         print("Error, returning combined reference dicts:", e)
@@ -389,12 +389,12 @@ if __name__ == "__main__":
     reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
 
     for year in range(2018, 2024):
-        print("Loading student names...")
+        #print("Loading student names...")
         all_student_names = get_all_people(year)
-        print(all_student_names)
-        print("Collecting student repo IDs...")
+        #print(all_student_names)
+        #print("Collecting student repo IDs...")
         all_student_repo_ids = get_all_student_repo_ids(year, ALL_LAB_SUBGROUP_IDS[year], all_student_names)
-        print(all_student_repo_ids)
+        #print(all_student_repo_ids)
 
         all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
 
@@ -405,11 +405,11 @@ if __name__ == "__main__":
             reference_dict_list = []
 
             compiled_reference_dict = get_all_reference_dicts(year, id)
-            print(compiled_reference_dict)
+            #print(compiled_reference_dict)
 
-            print("Adding reference dictionary to database...")
+            #print("Adding reference dictionary to database...")
             all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): compiled_reference_dict}))
-            print(f"All reference dictionaries so far... {all_reference_dicts}")
+            #print(f"All reference dictionaries so far... {all_reference_dicts}")
         reference_dicts_across_years.append(all_reference_dicts)
 
     matrix = format_data_to_matrix(reference_dicts_across_years)
