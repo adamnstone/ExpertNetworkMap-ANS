@@ -1,7 +1,7 @@
+timeout: 3h 30m
+
 # Functions that should be executed before the build script is run
 before_script: []
-
-timeout: 3h 30m
 
 stages:
   - build
