@@ -14,13 +14,16 @@ update_data:
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - python main.py
+    - python matrix2d3js.py
+    - python resolve_name_conflicts.py
+    - cat final_data_name_fixed.json > ../final_data.json
     - cd ..
     - echo "Running update-data/main.py complete!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add . 
-    - git commit -m "update-data/main.py ran"
+    - git add final_data.json
+    - git commit -m "update-data ran and final_data.json updated"
     - git push origin HEAD:pipeline_testing 
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
