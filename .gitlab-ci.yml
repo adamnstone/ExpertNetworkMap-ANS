@@ -8,6 +8,7 @@ stages:
 update_data:
   stage: build
   image: python:3.9
+  timeout: 3 hours
   script:
     - echo "Running update-data/main.py"
     - cd update-data
