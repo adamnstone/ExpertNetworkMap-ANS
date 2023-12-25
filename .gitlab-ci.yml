@@ -8,7 +8,6 @@ stages:
 update_data:
   stage: build
   image: python:3.9
-  timeout: 3 hours
   script:
     - echo "Running update-data/main.py"
     - cd update-data
@@ -26,6 +25,7 @@ update_data:
     - git add final_data.json
     - git commit -m "update-data ran and final_data.json updated"
     - git push origin HEAD:pipeline_testing 
+  timeout: 3h 30m
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
     
