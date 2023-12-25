@@ -55,7 +55,7 @@ TOPIC_SEARCH_TERMS = [
     ["Interfacing Week", "interface week", "Interface and Application Programming"],
     ["Wildcard Week"],
     ["Applications and Implications", "Bill-of-Materials", "Bill of materials"],
-    ["Patent", "copyright", "trademark", "Invention, Intellectual Property and Business Models"],
+    ["Patent", "trademark", "Invention, Intellectual Property and Business Models"],
     ["Final Project"],
     []
 
@@ -66,7 +66,14 @@ def get_file_content(file_path, project_id, default_branch_name):
     #print(f"Getting file content: {file_path}, {project_id}")
     safe_url = f"https://gitlab.fabcloud.org/api/v4/projects/{project_id}/repository/files/{urllib.parse.quote(file_path, safe='')}?ref={default_branch_name}"
     #print(safe_url)
-    response = requests.get(safe_url).json()
+    while True:
+        try:
+            response = requests.get(safe_url).json()
+            break
+        except requests.exceptions.ConnectTimeout:
+            pass
+        except requests.exceptions.ReadTimeout:
+            pass
     if 'message' in response:
         if '404' in response['message']:
             print(f"404 ERROR from {safe_url}")
@@ -82,7 +89,11 @@ def get_repo_name(project_id):
         return load_obj("repo_names", f"{project_id}")
     safe_url = f"https://gitlab.fabcloud.org/api/v4/projects/{project_id}"
     #print(safe_url)
-    response = requests.get(safe_url).json()
+    try:
+        response = requests.get(safe_url).json()
+    except:
+        print(requests.get(safe_url), safe_url)
+        quit()
     web_url = response['web_url']
     if 'message' in response:
         if '404' in response['message']:
@@ -102,7 +113,7 @@ def get_file_repo_list(id):
     all_directories = project.repository_tree(recursive=True, all=True, per_page=200) # pagination bug patched
     #print("Where")
     for item in all_directories:
-        print(item)
+        #print(item)
         path = item['path']
         if path.split('.')[-1].lower().strip() in VALID_EXTENSOINS:
             all_file_paths.append(path)
@@ -240,6 +251,7 @@ def get_references(content, year, from_url):
         topic_text = content.decode()[topic_search_start_ind:topic_search_end_ind].lower()
 
         #print("TOPIC TEXT", topic_text)
+        
         for i in range(len(TOPICS)):
             topic = TOPICS[i]
             topic_search_terms = TOPIC_SEARCH_TERMS[i]
@@ -247,7 +259,8 @@ def get_references(content, year, from_url):
                 item_spaces = item.replace("-", " ").replace("/", " ").replace(",", " ").lower().strip()
                 if re.search(re.compile(item_spaces.replace(" ",".")), topic_text) or re.search(re.compile(item_spaces.replace(" ","-")), topic_text) or re.search(re.compile(item_spaces), topic_text) or re.search(re.compile(item_spaces.replace(" ","")), topic_text):
                     link_label = topic
-
+        if "3d printers" in topic_text and from_url == "https://fabacademy.org/2023/labs/bottrop/students/michael-bennemann/":
+            print("LABEL: ", link_label, "TEXT: ", topic_text, "-"*10)
         if link_label is None:
             link_label = TOPICS[classifier.classifyItem(content)]
 
@@ -307,7 +320,7 @@ def format_data_to_matrix(data):
                 df.at[student1, (student2, topic_name)] = (pd.NA if student1 == student2 else 0)
 
     def assign_value(referencer_student, referenced_student, num_references, topic):
-        if referencer_student == referenced_student:
+        if referencer_student == referenced_student or (referencer_student.split(";")[1] == "https://fabacademy.org/2019/labs/crunchlab/students/gianluca-derossi/" and referenced_student.split(";")[1] == "https://fabacademy.org/2018/labs/fablabcrunchlab/students/gianluca-derossi/") or (referenced_student.split(";")[1] == "https://fabacademy.org/2019/labs/crunchlab/students/gianluca-derossi/" and referencer_student.split(";")[1] == "https://fabacademy.org/2018/labs/fablabcrunchlab/students/gianluca-derossi/"): # Gianluca De Rossi had two websites of different years that referenced each other
             print(f"Ignoring self-referenced student {referencer_student}")
         elif referenced_student not in students:
             if referenced_student.split(";")[1] in students_links:

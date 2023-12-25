@@ -604,6 +604,7 @@ const tooltipMouseover = function(event, d) {
 }
 
 var tooltipMousemove = function(event, d) {
+    console.log()
     Tooltip
         .html("<span>Student: " + d.id.split(";")[0] + "<br>Year: " + d.id.split(";")[1].split("/")[3] + "<br>Lab: " + namesFromCodes[d.id.split(";")[1].split("/")[5]] + "<br>Region: <span style=\"color:" + colorRegion(LABS_CONTINENT[d.id.split(";")[1].split("/")[5]]) + ";\">" + LABS_CONTINENT[d.id.split(";")[1].split("/")[5]] + "</span></span>");
 };

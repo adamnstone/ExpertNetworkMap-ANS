@@ -115,6 +115,7 @@ LABS_CONTINENT = {
     "fablabesan":"South America", // Peru
     "fablabberytech":"Asia", // Lebanon
     "crunchlab":"Europe", // Portugal (Assumed)
+    "fablabcrunchlab":"Europe",
     "ucal":"North America", // USA (Assumed)
     "vestmannaeyjar":"Europe", // Iceland
     "sedi":"Europe", // Italy (Assumed)
