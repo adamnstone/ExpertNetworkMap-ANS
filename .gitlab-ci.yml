@@ -1,6 +1,8 @@
 # Functions that should be executed before the build script is run
 before_script: []
 
+timeout: 3h 30m
+
 stages:
   - build
   - production
@@ -24,8 +26,7 @@ update_data:
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - git add final_data.json
     - git commit -m "update-data ran and final_data.json updated"
-    - git push origin HEAD:pipeline_testing 
-  timeout: 3h 30m
+    - git push origin HEAD:pipeline_testing
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
     
