@@ -105,7 +105,7 @@ LABS_CONTINENT = {
     "fablabbeijing":"Asia", // China
     "talents":"Europe", // Germany (Assumed)
     "fablabyachay":"South America", // Ecuador
-    "fablabdassault":"Europe", // France (Assumed)
+    "fablabdassault":"North America", // USA
     "ecostudio":"North America", // USA (Assumed)
     "fablabseoul":"Asia", // South Korea
     "kaust":"Asia", // Saudi Arabia
