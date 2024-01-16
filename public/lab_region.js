@@ -41,7 +41,7 @@ LABS_CONTINENT = {
     "fablabechofab":"North America", // Canada
     "zoi":"Asia", // China (Assumed)
     "cidi":"North America", // USA (Assumed)
-    "dassault":"Europe", // France (Assumed)
+    "dassault":"North America", // USA
     "stjude":"North America", // USA (Assumed)
     "aalto":"Europe", // Finland
     "fablabzoi":"Asia", // China (Assumed)
@@ -68,10 +68,10 @@ LABS_CONTINENT = {
     "waag":"Europe", // Netherlands
     "echofab":"North America", // Canada
     "dilijan":"Asia", // Armenia
-    "polytech":"Europe", // France (Assumed)
-    "agrilab":"Asia", // Armenia
+    "polytech":"Asia", // Singapore
+    "agrilab":"Europe", // France
     "fablabsiena":"Europe", // Italy -- ChatGPT changed "fablabsiena" to "siena" -- corrected by hand
-    "winam":"Africa", // Kenya (Assumed)
+    "winam":"Africa", // Kenya
     "fablaboulu":"Europe", // Finland
     "fablabreykjavik":"Europe", // Iceland
     "kamakura":"Asia", // Japan
@@ -114,10 +114,10 @@ LABS_CONTINENT = {
     "fablabrwanda":"Africa", // Rwanda
     "fablabesan":"South America", // Peru
     "fablabberytech":"Asia", // Lebanon
-    "crunchlab":"Europe", // Portugal (Assumed)
+    "crunchlab":"Europe", // Venice, Italy
     "ucal":"North America", // USA (Assumed)
     "vestmannaeyjar":"Europe", // Iceland
-    "sedi":"Europe", // Italy (Assumed)
+    "sedi":"Europe", // Cartagena, Spain
     "isafjordur":"Europe", // Iceland
     "fablabegypt":"Africa", // Egypt
     "szoil":"Asia", // China
@@ -137,12 +137,12 @@ LABS_CONTINENT = {
     "bottrop":"Europe", // Germany
     "fablabisafjorour":"Europe", // Iceland
     "plusx":"Asia", // South Korea (Assumed)
-    "fablaberfindergarden":"Europe", // Germany (Assumed)
+    "fablaberfindergarden":"Europe", // Germany
     "uemadrid":"Europe", // Spain
     "fablabtembisa":"Africa", // South Africa
     "brighton":"Europe", // UK
     "fablabfacens":"South America", // Brazil
-    "fablableon":"Europe", // Spain (Assumed)
+    "fablableon":"Europe", // Spain
     "fablabszoil":"Asia", // China
     "fablabgearbox":"Africa", // Kenya (Assumed)
     "farmlabalgarve":"Europe", // Portugal
@@ -162,11 +162,11 @@ LABS_CONTINENT = {
     "fablabtechworks":"North America", // USA (Assumed)
     "fablabkhairpur":"Asia", // Pakistan
     "chaihuo":"Asia", // China (Assumed)
-    "fablabulb":"Europe", // Belgium (Assumed)
+    "fablabulb":"Europe", // Belgium
     "esne":"Europe", // Spain (Assumed)
     "ulima":"South America", // Peru
     "fablabseoulinnovation":"Asia", // South Korea
-    "benfica":"Europe", // Portugal (Assumed)
+    "benfica":"Europe", // Portugal
     "fablabmadridceu":"Europe", // Spain
     "chandigarh":"Asia", // India
     "jubail":"Asia", // Saudi Arabia
