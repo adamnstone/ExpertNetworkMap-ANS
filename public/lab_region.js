@@ -67,7 +67,7 @@ LABS_CONTINENT = {
     "fablabaachen":"Europe", // Germany
     "waag":"Europe", // Netherlands
     "echofab":"North America", // Canada
-    "dilijan":"Asia", // Armenia
+    "dilijan":"Europe", // Armenia
     "polytech":"Asia", // Singapore
     "agrilab":"Europe", // France
     "fablabsiena":"Europe", // Italy -- ChatGPT changed "fablabsiena" to "siena" -- corrected by hand
