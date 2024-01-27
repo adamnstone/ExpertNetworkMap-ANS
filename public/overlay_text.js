@@ -36,7 +36,7 @@ const createdBy = () => {
         .style("fill", "red")
         .text("Join the Mattermost Channel ")
         .append("a")
-        .attr("xlink:href", "https://chat.academany.org/fabacademy-2023/channels/fab-academy-data-viz")
+        .attr("xlink:href", "https://chat.academany.org/fab-network/channels/fab-academy-data-viz")
         .attr("target", "_blank") 
         .style("fill", OVERLAY_TEXT_LINK_COLOR)
         .attr("font-size", "30px")
