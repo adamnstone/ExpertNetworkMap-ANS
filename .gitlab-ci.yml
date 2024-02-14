@@ -27,6 +27,8 @@ update_data:
     - git push origin HEAD:pipeline_testing
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
+  tags:
+    - longer
     
 pages:
   stage: production
