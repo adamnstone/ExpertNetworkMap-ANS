@@ -500,7 +500,7 @@ const createPie = () => {
         "All": 1
     };
 
-    for (let i = 2018; i <= 2023; i++) {
+    for (let i = 2018; i <= 2024; i++) {
         pieData[i] = 1;
     }
 

@@ -7,6 +7,7 @@ from load_model_and_classify import Classifier
 GL = gitlab.Gitlab('https://gitlab.fabcloud.org', api_version=4)
 VALID_EXTENSOINS = ["html", "txt", "md"]
 ALL_LAB_SUBGROUP_IDS = {
+    2024: 11038,
     2023: 8145,
     2022: 3632,
     2021: 2917,
@@ -14,6 +15,8 @@ ALL_LAB_SUBGROUP_IDS = {
     2019: 1619,
     2018: 852
 }
+
+YEAR_SCRAPING_RANGE = [2024]
 
 CHARACTERS_EACH_DIRECTION_TOPIC_DETECTION = 1000
 TOPICS = [
@@ -259,8 +262,7 @@ def get_references(content, year, from_url):
                 item_spaces = item.replace("-", " ").replace("/", " ").replace(",", " ").lower().strip()
                 if re.search(re.compile(item_spaces.replace(" ",".")), topic_text) or re.search(re.compile(item_spaces.replace(" ","-")), topic_text) or re.search(re.compile(item_spaces), topic_text) or re.search(re.compile(item_spaces.replace(" ","")), topic_text):
                     link_label = topic
-        if "3d printers" in topic_text and from_url == "https://fabacademy.org/2023/labs/bottrop/students/michael-bennemann/":
-            print("LABEL: ", link_label, "TEXT: ", topic_text, "-"*10)
+        
         if link_label is None:
             link_label = TOPICS[classifier.classifyItem(content)]
 
@@ -401,7 +403,7 @@ if __name__ == "__main__":
 
     reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
 
-    for year in range(2018, 2024):
+    for year in range(min(list(ALL_LAB_SUBGROUP_IDS.keys())), max(list(ALL_LAB_SUBGROUP_IDS.keys()))+1):
         #print("Loading student names...")
         all_student_names = get_all_people(year)
         #print(all_student_names)
@@ -412,6 +414,10 @@ if __name__ == "__main__":
         all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
 
         for lab_number, id in all_student_repo_ids:
+            print(id)
+            if year not in YEAR_SCRAPING_RANGE:
+                all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
+                continue
             """temp_i += 1
             if temp_i > 3:
                 break"""
