@@ -68,8 +68,8 @@ LABS_CONTINENT = {
     "fabc":"Europe", // Belgium
     "lima":"South America", // Peru
     "fablabspinderihallerne":"Europe", // Denmark
-    "fablabfct":"Europe", // Portugal (Assumed)
-    "fct":"Africa", // Nigeria (Assumed)
+    "fablabfct":"Europe", // Portugal
+    "fct":"Europe", // Portugal
     "opendot":"Europe", // Italy
     "fablabtecsup":"South America", // Peru
     "vancouver":"North America", // Canada
