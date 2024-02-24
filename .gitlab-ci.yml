@@ -3,6 +3,7 @@ before_script: []
 
 stages:
   - collect
+  - convert
   - format
   - production
 
@@ -14,14 +15,36 @@ update_data:
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - echo "Running update-data/main.py"
-    - python main.py
+    - python main.py part1
     - cd ..
-    - echo "Running update-data complete, now committing!"
+    - echo "Running update_data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add final_data.csv student_repo_id_saves/*.obj
-    - git commit -m "update-data ran and final_data.csv updated"
+    - git add cross-job-saves/*.obj student_repo_id_saves/*.obj
+    - git commit -m "update_data ran and cross-jobs-saves updated with reference_dicts_across_years"
+    - git push origin HEAD:pipeline_testing
+  rules:
+    - if: $TRIGGER_CONTEXT == "pipeline_test"
+  tags:
+    - longer
+
+convert_data:
+  stage: convert
+  image: python:3.9
+  script:
+    - cd update-data
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - echo "Running update-data/main.py"
+    - python main.py part2
+    - cd ..
+    - echo "Running convert_data complete, now committing!"
+    - git config --global user.email "ci-cd-bot@example.com"
+    - git config --global user.name "CI/CD Bot"
+    - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
+    - git add final_data.csv
+    - git commit -m "convert_data ran and final_data.csv updated"
     - git push origin HEAD:pipeline_testing
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
@@ -32,18 +55,18 @@ format_data:
   stage: format
   image: python:3.9
   script:
-    - echo "Running update-data/matrix2d3js.py"
+    - echo "Running format_data/matrix2d3js.py"
     - python matrix2d3js.py
-    - echo "Running update-data/resolve_name_conflicts.py"
+    - echo "Running format_data/resolve_name_conflicts.py"
     - python resolve_name_conflicts.py
     - cat final_data_name_fixed.json > ../final_data.json
     - cd ..
-    - echo "Running update-data complete, now committing!"
+    - echo "Running format_data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - git add final_data.json
-    - git commit -m "update-data ran and final_data.json updated"
+    - git commit -m "format_data ran and final_data.json updated"
     - git push origin HEAD:pipeline_testing
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
