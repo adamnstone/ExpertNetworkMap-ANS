@@ -3,6 +3,7 @@ before_script: []
 
 stages:
   - build
+  - format
   - production
 
 update_data:
@@ -14,11 +15,30 @@ update_data:
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - python main.py
+    - cd ..
+    - echo "Running update-data complete, now committing!"
+    - git config --global user.email "ci-cd-bot@example.com"
+    - git config --global user.name "CI/CD Bot"
+    - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
+    - git add final_data.csv
+    - git commit -m "update-data ran and final_data.csv updated"
+    - git push origin HEAD:pipeline_testing
+  rules:
+    - if: $TRIGGER_CONTEXT == "pipeline_test"
+  tags:
+    - longer
+
+format_data:
+  stage: format
+  image: python:3.9
+  script:
+    - echo "Running update-data/matrix2d3js.py"
     - python matrix2d3js.py
+    - echo "Running update-data/resolve_name_conflicts.py"
     - python resolve_name_conflicts.py
     - cat final_data_name_fixed.json > ../final_data.json
     - cd ..
-    - echo "Running update-data/main.py complete!"
+    - echo "Running update-data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
@@ -28,8 +48,8 @@ update_data:
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
   tags:
-    - longer
-    
+    - longer 
+
 pages:
   stage: production
   image: busybox
