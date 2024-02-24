@@ -185,6 +185,7 @@ def get_all_student_repo_ids(year, year_subgroup_id, all_student_names):
     all_student_repo_ids = []
     all_lab_ids = get_subgroup_ids(year_subgroup_id)
     for id in all_lab_ids:
+        print(all_lab_ids.index(id)/len(all_lab_ids))
         for sub_id in get_subgroup_ids(id):
             #print(sub_id)
             all_student_repo_ids.append((id, get_subproject_ids(sub_id))) # ((i, get_subproject_ids(sub_id)))
