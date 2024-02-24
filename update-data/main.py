@@ -400,7 +400,7 @@ def repo_name_to_student_name(name_and_web_url_tup):
     return name_final, web_url
 
 if __name__ == "__main__":
-    print(save_exists("people_saves", 2018))
+    #print(save_exists("people_saves", 2018))
     classifier = Classifier()
 
     reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
@@ -416,7 +416,7 @@ if __name__ == "__main__":
         all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
 
         for lab_number, id in all_student_repo_ids:
-            print(id)
+            #print(id)
             if year not in YEAR_SCRAPING_RANGE:
                 all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
                 continue
