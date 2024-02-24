@@ -1,8 +1,10 @@
-import requests, base64, urllib.parse, gitlab, re, pickle, os, time, json
+import requests, base64, urllib.parse, gitlab, re, pickle, os, time, json, threading
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import urljoin
 from load_model_and_classify import Classifier
+
+NUM_THREADS = 3
 
 GL = gitlab.Gitlab('https://gitlab.fabcloud.org', api_version=4)
 VALID_EXTENSOINS = ["html", "txt", "md"]
@@ -185,7 +187,6 @@ def get_all_student_repo_ids(year, year_subgroup_id, all_student_names):
     all_student_repo_ids = []
     all_lab_ids = get_subgroup_ids(year_subgroup_id)
     for id in all_lab_ids:
-        print(all_lab_ids.index(id)/len(all_lab_ids))
         for sub_id in get_subgroup_ids(id):
             #print(sub_id)
             all_student_repo_ids.append((id, get_subproject_ids(sub_id))) # ((i, get_subproject_ids(sub_id)))
@@ -415,22 +416,34 @@ if __name__ == "__main__":
 
         all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
 
+        num_active_threads = 0
         for lab_number, id in all_student_repo_ids:
-            #print(id)
-            if year not in YEAR_SCRAPING_RANGE:
-                all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
-                continue
-            """temp_i += 1
-            if temp_i > 3:
-                break"""
-            reference_dict_list = []
+            def loop_iteration():
+                global num_active_threads
+                num_active_threads += 1
+                print(all_student_repo_ids.index((lab_number,id))/len(all_student_repo_ids))
+                #print(id)
+                if year not in YEAR_SCRAPING_RANGE:
+                    all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
+                    num_active_threads -= 1
+                    return
+                """temp_i += 1
+                if temp_i > 3:
+                    break"""
+                reference_dict_list = []
 
-            compiled_reference_dict = get_all_reference_dicts(year, id)
-            #print(compiled_reference_dict)
+                compiled_reference_dict = get_all_reference_dicts(year, id)
+                #print(compiled_reference_dict)
 
-            #print("Adding reference dictionary to database...")
-            all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): compiled_reference_dict}))
-            #print(f"All reference dictionaries so far... {all_reference_dicts}")
+                #print("Adding reference dictionary to database...")
+                all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): compiled_reference_dict}))
+                #print(f"All reference dictionaries so far... {all_reference_dicts}")
+                num_active_threads -= 1
+            while True:
+                if num_active_threads < 3:
+                    t = threading.Thread(target=loop_iteration, args=())
+                    t.start()
+                    break
         reference_dicts_across_years.append(all_reference_dicts)
 
     matrix = format_data_to_matrix(reference_dicts_across_years)
