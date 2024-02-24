@@ -400,6 +400,7 @@ def repo_name_to_student_name(name_and_web_url_tup):
     return name_final, web_url
 
 if __name__ == "__main__":
+    print(save_exists("people_saves", 2018))
     classifier = Classifier()
 
     reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
