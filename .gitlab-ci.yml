@@ -20,7 +20,7 @@ update_data:
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add final_data.csv student_repo_id_saves/*.obj
+    - git add update-data/final_data.csv student_repo_id_saves/*.obj
     - git commit -m "update-data ran and final_data.csv updated"
     - git push origin HEAD:pipeline_testing
   timeout: 2 hours
@@ -43,7 +43,7 @@ format_data:
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add final_data.json
+    - git add update-data/final_data.json
     - git commit -m "update-data ran and final_data.json updated"
     - git push origin HEAD:pipeline_testing
   timeout: 2 hours
