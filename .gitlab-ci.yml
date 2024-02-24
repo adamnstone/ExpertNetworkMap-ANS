@@ -10,17 +10,17 @@ update_data:
   stage: build
   image: python:3.9
   script:
-    - echo "Running update-data/main.py"
     - cd update-data
     - pip install --upgrade pip
     - pip install -r requirements.txt
+    - echo "Running update-data/main.py"
     - python main.py
     - cd ..
     - echo "Running update-data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add final_data.csv
+    - git add final_data.csv student_repo_id_saves/*.obj
     - git commit -m "update-data ran and final_data.csv updated"
     - git push origin HEAD:pipeline_testing
   rules:
