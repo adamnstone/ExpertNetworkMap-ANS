@@ -1,4 +1,4 @@
-import requests, base64, urllib.parse, gitlab, re, pickle, os, time, json, sys
+import requests, base64, urllib.parse, gitlab, re, pickle, os, time, json
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.parse import urljoin
@@ -399,45 +399,42 @@ def repo_name_to_student_name(name_and_web_url_tup):
     return name_final, web_url
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "part1":
-        #print(save_exists("people_saves", 2018))
-        classifier = Classifier()
+    #print(save_exists("people_saves", 2018))
+    classifier = Classifier()
 
-        reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
+    reference_dicts_across_years = [] # [[(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...], ...]
 
-        for year in range(min(list(ALL_LAB_SUBGROUP_IDS.keys())), max(list(ALL_LAB_SUBGROUP_IDS.keys()))+1):
-            #print("Loading student names...")
-            all_student_names = get_all_people(year)
-            #print(all_student_names)
-            #print("Collecting student repo IDs...")
-            all_student_repo_ids = get_all_student_repo_ids(year, ALL_LAB_SUBGROUP_IDS[year], all_student_names)
-            #print(all_student_repo_ids)
+    for year in range(min(list(ALL_LAB_SUBGROUP_IDS.keys())), max(list(ALL_LAB_SUBGROUP_IDS.keys()))+1):
+        #print("Loading student names...")
+        all_student_names = get_all_people(year)
+        #print(all_student_names)
+        #print("Collecting student repo IDs...")
+        all_student_repo_ids = get_all_student_repo_ids(year, ALL_LAB_SUBGROUP_IDS[year], all_student_names)
+        #print(all_student_repo_ids)
 
-            all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
+        all_reference_dicts = [] # [(lab_id: (int), {"Student Name": {"student-referenced": num_references (int), ...}}), ...]
 
-            next_milestone = 0.05
-            for lab_number, id in all_student_repo_ids:
-                if year in YEAR_SCRAPING_RANGE and all_student_repo_ids.index((lab_number,id))/len(all_student_repo_ids) > next_milestone: 
-                    print(f"{next_milestone:.2f}% complete!")
-                    os.system(f"echo \"{next_milestone:.2f}% complete!\"")
-                    next_milestone += 0.05
-                #print(id)
-                if year not in YEAR_SCRAPING_RANGE:
-                    all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
-                    continue
-                """temp_i += 1
-                if temp_i > 3:
-                    break"""
-                reference_dict_list = []
+        next_milestone = 0.05
+        for lab_number, id in all_student_repo_ids:
+            if year in YEAR_SCRAPING_RANGE and all_student_repo_ids.index((lab_number,id))/len(all_student_repo_ids) > next_milestone: 
+                print(f"{next_milestone:.2f}% complete!")
+                os.system(f"echo \"{next_milestone:.2f}% complete!\"")
+                next_milestone += 0.05
+            #print(id)
+            if year not in YEAR_SCRAPING_RANGE:
+                all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): {}})) # necessary to keep students because otherwise references to these students will get filtered out
+                continue
+            """temp_i += 1
+            if temp_i > 3:
+                break"""
+            reference_dict_list = []
 
-                compiled_reference_dict = get_all_reference_dicts(year, id)
-                #print(compiled_reference_dict)
+            compiled_reference_dict = get_all_reference_dicts(year, id)
+            #print(compiled_reference_dict)
 
-                #print("Adding reference dictionary to database...")
-                all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): compiled_reference_dict}))
-                #print(f"All reference dictionaries so far... {all_reference_dicts}")
-            reference_dicts_across_years.append(all_reference_dicts)
-        save_obj("cross-job-saves", reference_dicts_across_years, "ref-dict-across-years.obj")
-    if len(sys.argv) > 1 and sys.argv[1] == "part2":
-        reference_dicts_across_years = load_obj("cross-job-saves", "ref-dict-across-years.obj")
-        matrix = format_data_to_matrix(reference_dicts_across_years)
+            #print("Adding reference dictionary to database...")
+            all_reference_dicts.append((lab_number, {format_name(get_repo_name(id), year): compiled_reference_dict}))
+            #print(f"All reference dictionaries so far... {all_reference_dicts}")
+        reference_dicts_across_years.append(all_reference_dicts)
+
+    matrix = format_data_to_matrix(reference_dicts_across_years)
