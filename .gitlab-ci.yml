@@ -2,18 +2,19 @@
 before_script: []
 
 stages:
-  - build
+  - collect
   - format
   - production
 
 update_data:
-  stage: build
+  stage: collect
   image: python:3.9
   script:
     - cd update-data
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - echo "Running update-data/main.py"
+    - python test.py
     - python main.py
     - cd ..
     - echo "Running update-data complete, now committing!"
