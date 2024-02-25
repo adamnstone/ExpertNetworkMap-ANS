@@ -6,7 +6,7 @@ stages:
   - format
   - production
 
-update_data:
+.update_data:
   stage: collect
   image: python:3.9
   script:
