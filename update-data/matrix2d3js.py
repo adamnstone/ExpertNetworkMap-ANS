@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import json
+import json, os
 
 INPUT_FILE = "final_data.csv"
 OUTPUT_FILE = "final_data.json"
@@ -62,7 +62,12 @@ if __name__ == "__main__":
         final_data['nodes'].append(generate_node_obj(student, 1))
 
     # for each link between students, add a link object in the final JSON under the `links` object
+    percent_complete = 0
     for referencer_student in STUDENTS:
+        if STUDENTS.index(referencer_student)/len(STUDENTS) > 0.05 + percent_complete:
+            percent_complete += 0.05
+            print(f"{percent_complete:.2f}% complete!")
+            os.system(f"echo \"{percent_complete:.2f}% complete!\"")
         referencer_student_name, referencer_student_link = split_name(referencer_student)
         for referenced_student in STUDENTS:
             referenced_student_name, referenced_student_link = split_name(referenced_student)
