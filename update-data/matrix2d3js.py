@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import json, os
+YEAR_SCRAPING_RANGE = [2024]
 
 INPUT_FILE = "final_data.csv"
 OUTPUT_FILE = "final_data.json"
@@ -59,24 +60,27 @@ if __name__ == "__main__":
     # create `nodes` object in final JSON
     for student in STUDENTS:
         student_name, student_link = split_name(student)
+        if int(student_link.split("/")[3]) not in YEAR_SCRAPING_RANGE:
+            continue
         final_data['nodes'].append(generate_node_obj(student, 1))
 
     # for each link between students, add a link object in the final JSON under the `links` object
     percent_complete = 0
     for referencer_student in STUDENTS:
-        if STUDENTS.index(referencer_student)/len(STUDENTS) > 0.05 + percent_complete:
-            percent_complete += 0.05
-            print(f"{percent_complete:.2f}% complete!")
-            os.system(f"echo \"{percent_complete:.2f}% complete!\"")
         referencer_student_name, referencer_student_link = split_name(referencer_student)
-        for referenced_student in STUDENTS:
-            referenced_student_name, referenced_student_link = split_name(referenced_student)
-            for topic in TOPICS:
-                val = get_value(df, referencer_student, referenced_student, topic)
+        if int(referencer_student_link.split("/")[3]) in YEAR_SCRAPING_RANGE:
+            if STUDENTS.index(referencer_student)/len(STUDENTS) > 0.05 + percent_complete:
+                percent_complete += 0.05
+                print(f"{percent_complete:.2f}% complete!")
+                os.system(f"echo \"{percent_complete:.2f}% complete!\"")
+            for referenced_student in STUDENTS:
+                referenced_student_name, referenced_student_link = split_name(referenced_student)
+                for topic in TOPICS:
+                    val = get_value(df, referencer_student, referenced_student, topic)
+                    if val == 0 or np.isnan(val): continue
 
-                if val == 0 or np.isnan(val): continue
-
-                final_data['links'].append(generate_link_obj(referencer_student, referenced_student, val, topic))
+                    final_data['links'].append(generate_link_obj(referencer_student, referenced_student, val, topic))
+        df.drop(index=referencer_student, inplace=True)
 
     with open("final_data.json", "w") as outfile:
         json.dump(final_data, outfile)
