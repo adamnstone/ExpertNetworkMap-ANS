@@ -82,5 +82,16 @@ if __name__ == "__main__":
                     final_data['links'].append(generate_link_obj(referencer_student, referenced_student, val, topic))
         df.drop(index=referencer_student, inplace=True)
 
+    with open("2023_final_data.json", "r", encoding="utf-8") as file:
+        data_2023 = json.loads(file.read())
+
+    if list(data_2023.keys()) != list(final_data):
+        raise Exception("JSONs' keys don't match:", data_2023.keys(), final_data.keys())
+    
+    dict_keys = data_2023.keys() # dict_keys(["nodes", "links"])
+    for k in dict_keys:
+        for i in range(len(final_data[k])):
+            data_2023[k].append(final_data[k][i])
+
     with open("final_data.json", "w") as outfile:
-        json.dump(final_data, outfile)
+        json.dump(data_2023, outfile)
