@@ -33,6 +33,7 @@ format_data:
   stage: format
   image: python:3.9
   script:
+    - git pull
     - cd update-data
     - pip install --upgrade pip
     - pip install -r requirements.txt
