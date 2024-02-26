@@ -6,7 +6,7 @@ stages:
   - format
   - production
 
-.update_data:
+update_data:
   stage: collect
   image: python:3.9
   script:
@@ -16,7 +16,7 @@ stages:
     - echo "Running update-data/main.py"
     - python main.py
     - cd ..
-    - echo "Running update-data complete, now committing!"
+    - echo "Running update_data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
@@ -42,7 +42,7 @@ format_data:
     - python resolve_name_conflicts.py
     - cat final_data_name_fixed.json > ../final_data.json
     - cd ..
-    - echo "Running update-data complete, now committing!"
+    - echo "Running format_data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
