@@ -36,6 +36,7 @@ format_data:
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
+    - git pull origin pipeline_testing
     - cd update-data
     - pip install --upgrade pip
     - pip install -r requirements.txt
