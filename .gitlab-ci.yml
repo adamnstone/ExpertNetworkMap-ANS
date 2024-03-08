@@ -6,7 +6,7 @@ stages:
   - format
   - production
 
-.update_data:
+update_data:
   stage: collect
   image: python:3.9
   script:
@@ -33,10 +33,6 @@ format_data:
   stage: format
   image: python:3.9
   script:
-    - git config --global user.email "ci-cd-bot@example.com"
-    - git config --global user.name "CI/CD Bot"
-    - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git pull origin pipeline_testing
     - cd update-data
     - pip install --upgrade pip
     - pip install -r requirements.txt
@@ -47,9 +43,12 @@ format_data:
     - cat final_data_name_fixed.json > ../final_data.json
     - cd ..
     - echo "Running format_data complete, now committing!"
+    - git config --global user.email "ci-cd-bot@example.com"
+    - git config --global user.name "CI/CD Bot"
+    - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - git add update-data/final_data.json
     - git commit -m "update-data ran and final_data.json updated"
-    - git push origin pipeline_testing
+    - git push origin HEAD:pipeline_testing
   timeout: 2 hours
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test"
