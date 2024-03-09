@@ -40,7 +40,7 @@ format_data:
     - python matrix2d3js.py
     - echo "Running update-data/resolve_name_conflicts.py"
     - python resolve_name_conflicts.py
-    - cat final_data_name_fixed.json > ../final_data.json
+    - cat final_data_name_fixed.json > ./final_data.json
     - cd ..
     - echo "Running format_data complete, now committing!"
     - git config --global user.email "ci-cd-bot@example.com"
