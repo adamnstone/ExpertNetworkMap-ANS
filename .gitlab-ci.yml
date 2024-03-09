@@ -51,7 +51,7 @@ format_data:
     - git push origin HEAD:pipeline_testing
   timeout: 2 hours
   rules:
-    - if: $TRIGGER_CONTEXT == "pipeline_test"
+    - if: $TRIGGER_CONTEXT == "pipeline_test_2"
   tags:
     - longer 
 
