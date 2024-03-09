@@ -36,10 +36,10 @@ if __name__ == "__main__":
         val = ";".join(repo_name_to_student_name(student.split(";")))
         #if student == "Tin Valetic;https://fabacademy.org/2020/labs/bottrop/students/tin-valetic/" or student == 'tin-valetic;https://fabacademy.org/2020/labs/bottrop/students/tin-valetic/':
         #    print(non_letters_into_codes(student.split(";")[0].replace("-"," ").title()) + ";" + student.split(";")[1])
-        regexes[student] = val
-        regexes[non_letters_into_codes(student.split(";")[0]) + ";" + student.split(";")[1]] = val
-        regexes[non_letters_into_codes(student.split(";")[0].replace("-"," ").title()) + ";" + student.split(";")[1]] = val
-        regexes[non_letters_into_codes(val.split(";")[0]) + ";" + student.split(";")[1]] = val
+        regexes["\""+student+"\""] = "\""+val+"\""
+        regexes["\""+non_letters_into_codes(student.split(";")[0]) + ";" + student.split(";")[1]+"\""] = "\""+val+"\""
+        regexes["\""+non_letters_into_codes(student.split(";")[0].replace("-"," ").title()) + ";" + student.split(";")[1]+"\""] = "\""+val+"\""
+        regexes["\""+non_letters_into_codes(val.split(";")[0]) + ";" + student.split(";")[1]+"\""] = "\""+val+"\""
         #regexes[" ".join([_.capitalize() if _[0] != "\\" else uppercase_char(_) for _ in non_letters_into_codes(student.split(";")[0]).replace("-"," ").split(" ")]) + ";" + student.split(";")[1]] = val
 
     #print(regexes)
