@@ -47,6 +47,9 @@ format_data:
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - mv update-data/final_data.json public/final_data.json
+    - git stash
+    - git checkout main
+    - git stash pop
     - git add public/final_data.json
     - git commit -m "update-data ran and final_data.json updated"
     - git push origin HEAD:main
