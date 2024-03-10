@@ -46,9 +46,10 @@ format_data:
     - git config --global user.email "ci-cd-bot@example.com"
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
-    - git add update-data/final_data.json
+    - mv update-data/final_data.json public/final_data.json
+    - git add public/final_data.json
     - git commit -m "update-data ran and final_data.json updated"
-    - git push origin HEAD:pipeline_testing
+    - git push origin HEAD:main
   timeout: 2 hours
   rules:
     - if: $TRIGGER_CONTEXT == "pipeline_test_2"
