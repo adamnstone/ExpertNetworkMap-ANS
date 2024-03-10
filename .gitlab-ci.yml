@@ -48,7 +48,8 @@ format_data:
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - mv update-data/final_data.json public/final_data.json
     - git add public/final_data.json
-    - git commit -m "format_data ran and final_data.json updated"
+    - git diff --staged --exit-code || echo "Changes detected, proceeding with commit."
+    - if [ $? -ne 0 ]; then git commit -m "format_data ran and final_data.json updated"; else echo "No changes to commit."; fi
     - git push origin HEAD:pipeline_testing
     - git fetch origin main
     - git stash
