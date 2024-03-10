@@ -47,11 +47,13 @@ format_data:
     - git config --global user.name "CI/CD Bot"
     - git remote set-url origin https://oauth2:${CI_ACCESS_TOKEN}@gitlab.fabcloud.org/pub/project/expert-network-map.git
     - mv update-data/final_data.json public/final_data.json
-    - git stash
-    - git switch main
-    - git stash pop
     - git add public/final_data.json
-    - git commit -m "update-data ran and final_data.json updated"
+    - git commit -m "format_data ran and final_data.json updated"
+    - git push origin HEAD:pipeline_testing
+    - git fetch origin main
+    - git switch main
+    - git checkout pipeine_testing public/final_data.json
+    - git commit -m "copied public/final_data.json from pipeline_testing branch after format_data ran"
     - git push origin HEAD:main
   timeout: 2 hours
   rules:
