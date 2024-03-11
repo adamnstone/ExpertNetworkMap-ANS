@@ -54,7 +54,7 @@ format_data:
     - git fetch origin main
     - git stash
     - git switch main
-    - git fetch origin pipeline_testing
+    - git pull origin pipeline_testing
     - git checkout pipeine_testing public/final_data.json
     - git commit -m "copied public/final_data.json from pipeline_testing branch after format_data ran"
     - git push origin HEAD:main
