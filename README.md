@@ -1,4 +1,7 @@
 # Expert Network Map
+
+***This is a copy of the Expert Network Map GitLab repo to be submitted as a part of my (Adam Stone's) MIT Maker Portfolio.***
+
 ## Seven generations of Fab Academy students intertwined
 
 The *Expert Network Map* allows users to visually identify *Topic Experts* in the Fab community. *Topic Experts* are Fab Academy students who are frequently referenced by peers. Fab Academy students often link each other's websites in their documentation, and mapping these connections creates a network intertwined across labs, years, and countries. The more times a student is referenced correlates with expertise level in specific subject areas. For current Fab Academy students, it can be extremely helpful to quickly identify *Topic Experts* to access their documentation for reference. Interacting with the Map can help students locate *Topic Experts* for specific years and labs. Once *Topic Experts* are found, clicking on their circle redirects the user to their Fab Academy Documentation Website.
