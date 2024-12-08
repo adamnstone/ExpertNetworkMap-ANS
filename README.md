@@ -20,11 +20,7 @@ The larger students' circles, the more times they have been referenced. Hover ov
 
 Access the live visualization website used by over 500 Fab Academy students.
 
-**FIX URL**
-
-[https://pub.fabcloud.io/project/expert-network-map/](https://pub.fabcloud.io/project/expert-network-map/)
-
-Or [https://tinyurl.com/expertmap](https://tinyurl.com/expertmap)
+[https://adamnstone.github.io/ExpertNetworkMap-ANS/public/](https://adamnstone.github.io/ExpertNetworkMap-ANS/public/)
 
 *(Use Chrome on a Computer)*
 
@@ -65,7 +61,7 @@ Read the details of older release notes for early versions of the project.
 ## Repo Organization
 
 - Visualization
-    - Interactive force simulation graph where nodes represent studets and edges represent references between students' documentation
+    - Interactive force simulation graph where nodes represent students and edges represent references between students' documentation
     - Size of nodes corresponds to level of expertise (calculated by in-degree centrality)
     - Color of nodes corresponds to geography
     - Four filters enable users to quickly search for useful documentation by "expertise" level, subject area, geography / Fab Lab, and year
