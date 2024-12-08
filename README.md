@@ -8,7 +8,7 @@ The *Expert Network Map* allows users to visually identify *Topic Experts* in th
  
 The *Expert Network Map* allows users to navigate the massive web of interconnected students and highlights *Topics Experts* dating back to 2018. Each Fab Academy student is represented by a circle. Drag around different students to play with the data and gain insight into the interconnectedness of the Fab community.
 
-The larger a student's circle, the more times they have been referenced. Hover over a circle to see the student's name, and click on it to open their documentation website. Click the tabs on the left to filter by topic area; click different years on the bottom left circle to highlight students from that year; use the dropdown on the top right to highlight students from certain Fab Labs; and use the dial on the bottom right to set a minimum number of references that a student must have, changing the *Expertise Threshold*.
+The larger students' circles, the more times they have been referenced. Hover over circles to see students' names, and click on them to open their documentation website. Click the tabs on the left to filter by topic area; click different years on the bottom left circle to highlight students from that year; use the dropdown on the top right to highlight students from certain Fab Labs; and use the dial on the bottom right to set a minimum number of references that a student must have, changing the *Expertise Threshold*.
 
 ![Expert Network Map Website Hero Shot](./images/exnm-hero.png)
 
