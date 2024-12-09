@@ -72,7 +72,7 @@ Read the details of older release notes for early versions of the project.
         - Scrape 1,000+ Fab Academy student GitLab repos and searches for URLs to other students' documentation websites
         - Store the 2,000 characters of text surrounding each link to use for classifying each reference into a subject area
         - References that have the exact name of a subject area in the surrounding text are automatically classified, then used as training data for the classification neural network
-        - Code on the [`pipeline_testing`]**FIX URL** branch in the [`update-data`]**FIX URL** directory
+        - Code on the [`pipeline_testing`](https://github.com/adamnstone/ExpertNetworkMap-ANS/tree/pipeline_testing) branch in the [`update-data`](https://github.com/adamnstone/ExpertNetworkMap-ANS/tree/pipeline_testing/update-data) directory
     - AI Classification Python Scripts
         - Train a neural network on keyword-classified references between students' documentation (~86.3% accuracy)
         - Use the neural network to classify each of the remaining references into a subject area
