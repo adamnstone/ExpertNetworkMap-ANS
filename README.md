@@ -76,4 +76,5 @@ Read the details of older release notes for early versions of the project.
     - AI Classification Python Scripts
         - Train a neural network on keyword-classified references between students' documentation (~86.3% accuracy)
         - Use the neural network to classify each of the remaining references into a subject area
-        - Code on the [`pipeline_testing`]**FIX URL** branch in the [`update-data`]**FIX URL** directory
+        - Code on the [`pipeline_testing`](https://github.com/adamnstone/ExpertNetworkMap-ANS/tree/pipeline_testing) branch in the [`update-data`](https://github.com/adamnstone/ExpertNetworkMap-ANS/tree/pipeline_testing/update-data) directory
+        - **NOTE: In the original project GitLab repo (not the MIT Maker Portfolio GitHub copy), the weekly update script ran via the CI/CD pipeline and committed the updated data to the `pipeline_testing` and `main` branches. However, due to GitHub's filesize limits, I had to remove these files from the git history, and I used Git LFS to upload only the most recent version (as of Dec. 9, 2024).**
