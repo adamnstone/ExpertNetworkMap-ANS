@@ -260,7 +260,7 @@ def get_references(content, year, from_url):
                     link_label = topic
         
         if link_label is None:
-            link_label = TOPICS[classifier.classifyItem(content)]
+            link_label = TOPICS[classifier.classify_item(content)]
 
         if person in people_linked:
             if link_label in people_linked[person]:

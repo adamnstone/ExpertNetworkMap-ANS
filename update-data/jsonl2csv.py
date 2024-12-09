@@ -1,3 +1,5 @@
+# convert JSON training data to CSV
+
 import json, string
 import pandas as pd
 
