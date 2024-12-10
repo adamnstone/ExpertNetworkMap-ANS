@@ -42,7 +42,6 @@ if __name__ == "__main__":
         regexes["\""+non_letters_into_codes(val.split(";")[0]) + ";" + student.split(";")[1]+"\""] = "\""+val+"\""
         #regexes[" ".join([_.capitalize() if _[0] != "\\" else uppercase_char(_) for _ in non_letters_into_codes(student.split(";")[0]).replace("-"," ").split(" ")]) + ";" + student.split(";")[1]] = val
 
-    #print(regexes)
     # run the regex on final_data.json (literally replace the text, don't load as an object)
     with open('final_data.json', 'r') as file:
         content = file.read()
