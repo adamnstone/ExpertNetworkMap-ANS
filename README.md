@@ -1,6 +1,6 @@
 # Expert Network Map
 
-***This is a copy of the Expert Network Map GitLab repo to be submitted as a part of my (Adam Stone's) MIT Maker Portfolio.***
+***This is a copy of the Expert Network Map GitLab repo.***
 
 ## Project Overview
 
